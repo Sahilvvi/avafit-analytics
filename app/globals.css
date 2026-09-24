@@ -181,6 +181,23 @@ textarea::placeholder {
   }
 }
 
+/* ---------------------------------------------------------- login / mobile */
+.hc-login-mobile-brand {
+  display: none;
+}
+@media (max-width: 860px) {
+  .hc-login-hero {
+    display: none !important;
+  }
+  .hc-login-formwrap {
+    min-height: 100vh;
+    padding: 32px 20px !important;
+  }
+  .hc-login-mobile-brand {
+    display: flex;
+  }
+}
+
 /* ---------------------------------------------------------------- shared */
 .hc-mono {
   font-family: var(--hc-mono);
