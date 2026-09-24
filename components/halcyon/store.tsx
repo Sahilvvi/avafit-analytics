@@ -4,8 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { usePathname, useRouter } from "next/navigation";
 import type { AdminInfo, Model, RawSnapshot } from "@/lib/halcyon/types";
 import { buildModel } from "@/lib/halcyon/model";
-import { csvEscape } from "@/lib/halcyon/format";
-import { logoutAction } from "@/app/login/actions";
+import { logoutAction, autoLogoutAction } from "@/app/login/actions";
 
 export interface SortState {
   k: string | null;
@@ -40,6 +39,7 @@ export interface UiState {
   toasts: Toast[];
   report: string;
   paused: boolean;
+  hidden: boolean;
 }
 
 export interface Prefs {
@@ -69,11 +69,18 @@ const INITIAL: UiState = {
   toasts: [],
   report: "roster",
   paused: false,
+  hidden: false,
 };
 
 const REFRESH_MS = 15_000;
 const PREFS_KEY = "hc_prefs";
 const SEEN_KEY = "hc_notif_seen";
+
+// Data-protection timers (see the "data-protection hardening" plan): the tab
+// blurs the instant it's hidden, and auto-signs-out after either the tab
+// stays hidden or the admin stays idle past these thresholds.
+const HIDDEN_LOGOUT_MS = 60_000;
+const IDLE_LOGOUT_MS = 5 * 60_000;
 
 interface DashCtx {
   model: Model;
@@ -85,8 +92,6 @@ interface DashCtx {
   set: (patch: Partial<UiState> | ((s: UiState) => Partial<UiState>)) => void;
   go: (href: string, patch?: Partial<UiState>) => void;
   toast: (msg: string, tone?: "ok" | "warn") => void;
-  exportCSV: (name: string, rows: unknown[][]) => void;
-  exportPDF: () => void;
   prefs: Prefs;
   setPref: (k: keyof Prefs, v: boolean) => void;
   notifSeen: number;
@@ -181,27 +186,6 @@ export function DashProvider({
     [router]
   );
 
-  const exportCSV = useCallback<DashCtx["exportCSV"]>(
-    (name, rows) => {
-      const csv = rows.map((r) => r.map(csvEscape).join(",")).join("\n");
-      const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${name}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-      toast(`Exported ${name}.csv · ${Math.max(0, rows.length - 1)} rows`);
-    },
-    [toast]
-  );
-
-  const exportPDF = useCallback(() => {
-    toast("Preparing PDF…");
-    window.setTimeout(() => window.print(), 350);
-  }, [toast]);
-
   const refreshNow = useCallback(() => {
     router.refresh();
     setRefreshedAt(Date.now());
@@ -242,6 +226,68 @@ export function DashProvider({
     void logoutAction();
   }, []);
 
+  const autoSignOut = useCallback((reason: "idle" | "hidden") => {
+    void autoLogoutAction(reason);
+  }, []);
+
+  // Blur the content the instant the tab is hidden/backgrounded/locked, and
+  // auto-logout if it stays hidden past HIDDEN_LOGOUT_MS. This reacts to the
+  // browser's normal, always-reliable visibilitychange event — it's not a
+  // detector for any particular capture tool, just an instant privacy screen.
+  useEffect(() => {
+    let hideTimer: number | undefined;
+    const onVisibility = () => {
+      const isHidden = document.hidden;
+      setUi((s) => (s.hidden === isHidden ? s : { ...s, hidden: isHidden }));
+      if (isHidden) {
+        hideTimer = window.setTimeout(() => autoSignOut("hidden"), HIDDEN_LOGOUT_MS);
+      } else if (hideTimer) {
+        window.clearTimeout(hideTimer);
+        hideTimer = undefined;
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      if (hideTimer) window.clearTimeout(hideTimer);
+    };
+  }, [autoSignOut]);
+
+  // Idle auto-logout: any interaction resets the clock.
+  useEffect(() => {
+    let idleTimer = window.setTimeout(() => autoSignOut("idle"), IDLE_LOGOUT_MS);
+    const reset = () => {
+      window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(() => autoSignOut("idle"), IDLE_LOGOUT_MS);
+    };
+    const events: (keyof DocumentEventMap)[] = ["mousemove", "keydown", "scroll", "touchstart"];
+    events.forEach((e) => document.addEventListener(e, reset, { passive: true }));
+    return () => {
+      window.clearTimeout(idleTimer);
+      events.forEach((e) => document.removeEventListener(e, reset));
+    };
+  }, [autoSignOut]);
+
+  // Deterrent layer only (documented as such — none of this stops a
+  // determined user, it just removes the one-click paths): block the
+  // right-click menu and the browser's own print/save/devtools shortcuts.
+  useEffect(() => {
+    const onContextMenu = (e: MouseEvent) => e.preventDefault();
+    const onKeyDown = (e: KeyboardEvent) => {
+      const mod = e.ctrlKey || e.metaKey;
+      const k = e.key.toLowerCase();
+      if (mod && (k === "p" || k === "s")) e.preventDefault();
+      if (e.key === "F12") e.preventDefault();
+      if (mod && e.shiftKey && (k === "i" || k === "j" || k === "c")) e.preventDefault();
+    };
+    document.addEventListener("contextmenu", onContextMenu);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("contextmenu", onContextMenu);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
   const value = useMemo<DashCtx>(
     () => ({
       model,
@@ -253,8 +299,6 @@ export function DashProvider({
       set,
       go,
       toast,
-      exportCSV,
-      exportPDF,
       prefs,
       setPref,
       notifSeen,
@@ -263,7 +307,7 @@ export function DashProvider({
       refreshNow,
       signOut,
     }),
-    [model, admin, snapshot.nowMs, ready, mobile, ui, set, go, toast, exportCSV, exportPDF, prefs, setPref, notifSeen, markNotifsRead, refreshedAt, refreshNow, signOut]
+    [model, admin, snapshot.nowMs, ready, mobile, ui, set, go, toast, prefs, setPref, notifSeen, markNotifsRead, refreshedAt, refreshNow, signOut]
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

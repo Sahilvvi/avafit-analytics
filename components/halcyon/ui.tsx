@@ -4,6 +4,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { STATUS_STYLE, av, C, fmtDur, fmtInt, hm } from "@/lib/halcyon/format";
 import type { DSession } from "@/lib/halcyon/types";
 import type { SortState } from "./store";
+import { useDash } from "./store";
 
 export const BRAND = "AVA Fit";
 export const BRAND_TAG = "ADMIN";
@@ -22,6 +23,47 @@ export function Orb({ size = 26 }: { size?: number }) {
         boxShadow: "0 0 18px rgba(10,165,194,.6)",
       }}
     />
+  );
+}
+
+/** Tiles the signed-in admin's identity across the whole viewport so a leaked
+ *  screenshot/photo is traceable to whoever took it — real prevention of
+ *  screen capture isn't possible from a web page (see the data-protection
+ *  plan), so this is the accountability layer instead. */
+export function Watermark() {
+  const { admin, nowMs, ready } = useDash();
+  if (!ready) return null;
+  const stamp = `${admin.name} · ${admin.email || admin.role} · ${new Date(nowMs).toLocaleString()}`;
+  const cells = Array.from({ length: 48 }, (_, i) => i);
+  return (
+    <div
+      aria-hidden
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        pointerEvents: "none",
+        overflow: "hidden",
+        display: "grid",
+        gridTemplateColumns: "repeat(4,1fr)",
+        transform: "rotate(-22deg) scale(1.4)",
+        transformOrigin: "center",
+      }}
+    >
+      {cells.map((i) => (
+        <span
+          key={i}
+          style={{
+            padding: "38px 10px",
+            font: "500 12px var(--hc-mono)",
+            color: "rgba(15,23,42,0.055)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {stamp}
+        </span>
+      ))}
+    </div>
   );
 }
 

@@ -1,12 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { Icon } from "@/components/halcyon/icons";
 import { useDash } from "@/components/halcyon/store";
 import { EmptyRow, PageHead } from "@/components/halcyon/ui";
 import { dailySeries } from "@/lib/halcyon/derive";
 import { fmtDur } from "@/lib/halcyon/format";
-import { patientRows, sessionRows } from "@/lib/halcyon/exports";
 import type { Model } from "@/lib/halcyon/types";
 
 interface ReportDef {
@@ -16,7 +14,6 @@ interface ReportDef {
   cols: string[];
   grid: string;
   rows: (m: Model) => (string | number)[][];
-  csv: (m: Model) => unknown[][];
 }
 
 function weeklySummaryRows(m: Model): (string | number)[][] {
@@ -43,7 +40,6 @@ const REPORTS: ReportDef[] = [
     cols: ["PATIENT", "CODE", "TESTER", "SESSIONS", "TOTAL TIME", "STATUS"],
     grid: "minmax(160px,1.6fr) 100px minmax(120px,1fr) 90px 110px 90px",
     rows: (m) => m.patients.map((p) => [p.name, p.code, p.tester, p.sessions.length, fmtDur(p.totalS), p.status]),
-    csv: (m) => patientRows(m),
   },
   {
     key: "sessions",
@@ -52,7 +48,6 @@ const REPORTS: ReportDef[] = [
     cols: ["SESSION", "PATIENT", "DEVICE", "TESTER", "DURATION", "STARTED"],
     grid: "100px minmax(140px,1.4fr) 90px minmax(120px,1fr) 100px 150px",
     rows: (m) => m.sessions.slice(0, 200).map((s) => [s.code, s.patient, s.device, s.tester, fmtDur(s.durS), s.startMs ? new Date(s.startMs).toLocaleString() : "—"]),
-    csv: (m) => sessionRows(m),
   },
   {
     key: "testers",
@@ -61,10 +56,6 @@ const REPORTS: ReportDef[] = [
     cols: ["TESTER", "EMAIL", "SESSIONS", "PATIENTS", "TOTAL TIME"],
     grid: "minmax(140px,1.3fr) minmax(180px,1.6fr) 90px 90px 110px",
     rows: (m) => m.testers.map((t) => [t.name, t.email, t.sessions.length, t.patients.length, fmtDur(t.totalS)]),
-    csv: (m) => [
-      ["Name", "Email", "Sessions", "Patients", "Total time (s)", "Verified", "Joined"],
-      ...m.testers.map((t) => [t.name, t.email, t.sessions.length, t.patients.length, Math.round(t.totalS), t.verified, t.joinedMs ? new Date(t.joinedMs).toISOString() : ""]),
-    ],
   },
   {
     key: "weekly",
@@ -73,12 +64,11 @@ const REPORTS: ReportDef[] = [
     cols: ["WEEK OF", "SESSIONS", "SAMPLES", "AVG DURATION (S)"],
     grid: "140px 100px 100px 140px",
     rows: (m) => weeklySummaryRows(m),
-    csv: (m) => [["Week of", "Sessions", "Samples", "Avg duration (s)"], ...weeklySummaryRows(m)],
   },
 ];
 
 export default function ReportsPage() {
-  const { model, ui, set, exportCSV, exportPDF, ready, nowMs } = useDash();
+  const { model, ui, set, ready, nowMs } = useDash();
   const active = REPORTS.find((r) => r.key === ui.report) ?? REPORTS[0];
   const rows = useMemo(() => active.rows(model), [active, model]);
 
@@ -119,16 +109,6 @@ export default function ReportsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <h3 style={{ margin: 0, fontSize: 19, fontWeight: 600, letterSpacing: "-.01em" }}>{active.title}</h3>
               <span className="hc-sub">{active.desc}</span>
-            </div>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button className="hc-btn" onClick={() => exportCSV(`ava-fit-${active.key}`, active.csv(model))}>
-                <Icon name="download" size={15} />
-                CSV
-              </button>
-              <button className="hc-btn-primary" onClick={exportPDF}>
-                <Icon name="printer" size={15} />
-                Export PDF
-              </button>
             </div>
           </div>
           <div style={{ overflowX: "auto" }}>

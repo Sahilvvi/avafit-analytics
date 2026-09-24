@@ -100,8 +100,3 @@ export function dayLabelOf(ms: number): string {
   const d = new Date(ms);
   return `${MO[d.getMonth()]} ${d.getDate()}`;
 }
-
-export function csvEscape(v: unknown): string {
-  const s = String(v == null ? "" : v);
-  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-}

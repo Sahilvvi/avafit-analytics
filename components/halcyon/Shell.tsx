@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Icon, type IconName } from "./icons";
 import { useDash } from "./store";
-import { BRAND, LiveDot, Orb, cssVars } from "./ui";
+import { BRAND, LiveDot, Orb, Watermark, cssVars } from "./ui";
 import { initialsOf } from "@/lib/halcyon/format";
 import { Drawer, Notifications, Palette, Toasts, useNotifications } from "./Overlays";
 
@@ -207,8 +207,22 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main style={{ position: "relative", zIndex: 1, maxWidth: 1440, margin: "0 auto", padding: mobile ? "20px 16px 64px" : "32px 28px 64px" }}>{children}</main>
+        <main
+          style={{
+            position: "relative",
+            zIndex: 1,
+            maxWidth: 1440,
+            margin: "0 auto",
+            padding: mobile ? "20px 16px 64px" : "32px 28px 64px",
+            filter: ui.hidden ? "blur(20px)" : "none",
+            transition: ui.hidden ? "none" : "filter .2s ease",
+          }}
+        >
+          {children}
+        </main>
       </div>
+
+      <Watermark />
 
       {mobile && ui.mobileNav ? (
         <div onClick={() => set({ mobileNav: false })} style={{ position: "fixed", inset: 0, zIndex: 29, background: "rgba(15,23,42,.28)", backdropFilter: "blur(3px)", animation: "hcFadeIn .25s both" }} />

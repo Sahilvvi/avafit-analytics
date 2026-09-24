@@ -8,7 +8,6 @@ import { Spark } from "@/components/halcyon/charts";
 import { profileEntries } from "@/components/halcyon/parts";
 import { weeklyCounts, patientNotes } from "@/lib/halcyon/derive";
 import { agoLabel, fmtDur, fmtInt, C } from "@/lib/halcyon/format";
-import { patientRows } from "@/lib/halcyon/exports";
 import type { DPatient } from "@/lib/halcyon/types";
 
 const PAGE_SIZE = 8;
@@ -23,7 +22,7 @@ const COLS: [string, string][] = [
 ];
 
 export default function PatientsPage() {
-  const { model, ui, set, go, nowMs, exportCSV, prefs } = useDash();
+  const { model, ui, set, go, nowMs, prefs } = useDash();
 
   const statusChips = useMemo(() => {
     const active = model.patients.filter((p) => p.status === "Active").length;
@@ -95,12 +94,6 @@ export default function PatientsPage() {
               </button>
             );
           })}
-        </div>
-        <div style={{ marginLeft: "auto", display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <button className="hc-btn" onClick={() => exportCSV("ava-fit-patients", patientRows(model))}>
-            <Icon name="download" size={15} />
-            Export CSV
-          </button>
         </div>
       </div>
 

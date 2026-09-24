@@ -6,10 +6,12 @@ import {
   fetchAdminUserByEmail,
   fetchAdminUserById,
   fetchAdminUsers,
+  fetchAuditLog,
   insertAdminUser,
+  insertAuditLog,
   touchAdminLogin,
 } from "./data";
-import type { AdminUser } from "./types";
+import type { AdminUser, AuditLogEntry } from "./types";
 
 const SALT_ROUNDS = 10;
 
@@ -63,4 +65,17 @@ export async function createAdmin(input: {
 
 export async function removeAdmin(id: string): Promise<void> {
   await deleteAdminUser(id);
+}
+
+export async function logAudit(
+  adminId: string | null,
+  email: string,
+  action: AuditLogEntry["action"],
+  req: { ip: string | null; userAgent: string | null }
+): Promise<void> {
+  await insertAuditLog({ admin_id: adminId, admin_email: email, action, ip: req.ip, user_agent: req.userAgent });
+}
+
+export async function recentAuditLog(limit = 20): Promise<AuditLogEntry[]> {
+  return fetchAuditLog(limit);
 }

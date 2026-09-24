@@ -71,6 +71,18 @@ export interface AdminUser {
   last_login_at?: string | null;
 }
 
+/** Row in `admin_audit_log` — who signed in/out and when, for traceability
+ *  since a browser can't actually prevent a screenshot or recording. */
+export interface AuditLogEntry {
+  id: string;
+  admin_id: string | null;
+  admin_email: string;
+  action: "login" | "logout" | "idle_logout" | "hidden_logout";
+  ip: string | null;
+  user_agent: string | null;
+  created_at: string;
+}
+
 export interface AuthUser {
   id: string;
   email?: string | null;

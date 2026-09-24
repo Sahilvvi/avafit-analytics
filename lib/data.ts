@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { getSupabaseAdmin } from "./supabaseAdmin";
-import type { AdminUser, AuthUser, Patient, Session, UserSettings } from "./types";
+import type { AdminUser, AuditLogEntry, AuthUser, Patient, Session, UserSettings } from "./types";
 
 /**
  * Every page navigation used to call these fresh — 4 Supabase round trips
@@ -169,4 +169,32 @@ export async function updateAdminProfile(
   const { error } = await supabase.from("admin_users").update({ name: fields.name, email: fields.email.toLowerCase() }).eq("id", id);
   if (error) return { ok: false, error: error.message };
   return { ok: true };
+}
+
+// --- Audit log (traceability layer — see the data-protection plan) -----
+
+export async function insertAuditLog(entry: {
+  admin_id: string | null;
+  admin_email: string;
+  action: AuditLogEntry["action"];
+  ip: string | null;
+  user_agent: string | null;
+}): Promise<void> {
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase.from("admin_audit_log").insert(entry);
+  if (error) console.error("insertAuditLog failed:", error.message);
+}
+
+export async function fetchAuditLog(limit = 20): Promise<AuditLogEntry[]> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("admin_audit_log")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) {
+    console.error("fetchAuditLog failed:", error.message);
+    return [];
+  }
+  return (data ?? []) as AuditLogEntry[];
 }

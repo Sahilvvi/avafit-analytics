@@ -181,6 +181,20 @@ textarea::placeholder {
   }
 }
 
+/* -------------------------------------------------------- copy deterrents */
+/* Weak, bypassable-by-design deterrent (see the data-protection plan) — not
+   a security boundary, just removes the one-click "select all / copy". */
+body {
+  user-select: none;
+  -webkit-user-select: none;
+}
+input,
+textarea,
+[contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
 /* ---------------------------------------------------------- login / mobile */
 .hc-login-mobile-brand {
   display: none;

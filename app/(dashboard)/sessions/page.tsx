@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { Icon } from "@/components/halcyon/icons";
 import { useDash } from "@/components/halcyon/store";
 import { Avatar, EmptyRow, PageHead, SortHead, StatusPill, sorter } from "@/components/halcyon/ui";
-import { sessionRows } from "@/lib/halcyon/exports";
 import { fmtDur, fmtInt, whenLabel } from "@/lib/halcyon/format";
 import type { DSession } from "@/lib/halcyon/types";
 
@@ -20,7 +19,7 @@ const COLS: [string, string][] = [
 ];
 
 export default function SessionsPage() {
-  const { model, ui, set, nowMs, exportCSV, prefs } = useDash();
+  const { model, ui, set, nowMs, prefs } = useDash();
 
   const chips = useMemo(() => {
     const all = { key: "All", label: "All devices", count: model.sessions.length };
@@ -71,12 +70,6 @@ export default function SessionsPage() {
               </button>
             );
           })}
-        </div>
-        <div style={{ marginLeft: "auto" }}>
-          <button className="hc-btn" onClick={() => exportCSV("ava-fit-sessions", sessionRows(model))}>
-            <Icon name="download" size={15} />
-            Export CSV
-          </button>
         </div>
       </div>
 

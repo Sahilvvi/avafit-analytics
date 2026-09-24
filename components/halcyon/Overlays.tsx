@@ -6,7 +6,6 @@ import { useDash } from "./store";
 import { Avatar, Notes, StatusPill, Timeline, sessionLog } from "./ui";
 import { RAW_NOTE } from "./parts";
 import { agoLabel, fmtDur, fmtInt, whenLabel } from "@/lib/halcyon/format";
-import { patientRows } from "@/lib/halcyon/exports";
 
 /* ------------------------------------------------------------------ drawer */
 
@@ -227,7 +226,7 @@ interface PaletteEntry {
 }
 
 export function Palette() {
-  const { ui, set, go, model, exportCSV } = useDash();
+  const { ui, set, go, model } = useDash();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const entries = useMemo<PaletteEntry[]>(() => {
@@ -261,17 +260,8 @@ export function Palette() {
       sub: t.email || "Tester",
       action: () => go("/testers"),
     }));
-    const actions: PaletteEntry[] = [
-      {
-        group: "Actions",
-        glyph: "→",
-        label: "Export patients CSV",
-        sub: "Download the full patient roster",
-        action: () => exportCSV("ava-fit-patients", patientRows(model)),
-      },
-    ];
-    return [...pages, ...patients, ...sessions, ...testers, ...actions];
-  }, [model, go, exportCSV]);
+    return [...pages, ...patients, ...sessions, ...testers];
+  }, [model, go]);
 
   const q = ui.pq.trim().toLowerCase();
   const filtered = q ? entries.filter((e) => `${e.label} ${e.sub} ${e.group}`.toLowerCase().includes(q)).slice(0, 30) : entries.slice(0, 20);
