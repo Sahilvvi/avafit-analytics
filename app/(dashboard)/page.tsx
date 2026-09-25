@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import { Icon } from "@/components/halcyon/icons";
 import { useDash } from "@/components/halcyon/store";
 import { PageHead, LiveDot, cssVars } from "@/components/halcyon/ui";
-import { SecureValue } from "@/components/halcyon/SecureValue";
 import { Spark, DualLines, Donut } from "@/components/halcyon/charts";
 import { dailySeries, deltaOf, windowStats } from "@/lib/halcyon/derive";
 import { fmtCompact, fmtDur, fmtInt, C } from "@/lib/halcyon/format";
@@ -53,9 +52,7 @@ function KpiCard({
       </div>
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 12 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <span style={{ letterSpacing: "-.03em" }}>
-            <SecureValue value={value} fontSize={34} weight={600} />
-          </span>
+          <span style={{ fontSize: 34, fontWeight: 600, letterSpacing: "-.03em", fontVariantNumeric: "tabular-nums" }}>{value}</span>
           <span style={{ fontSize: 12, color: "#64748B" }}>{sub}</span>
         </div>
         <div style={{ width: 110, height: 40 }}>
@@ -296,10 +293,8 @@ export default function OverviewPage() {
           <div style={{ display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap" }}>
             <div style={{ position: "relative", width: 180, height: 180, flex: "none" }}>
               <Donut values={deviceCounts} colors={[C.cyan, C.green, C.violet, C.amber]} hover={hoverDonut} onHover={setHoverDonut} />
-              <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ pointerEvents: "auto" }}>
-                  <SecureValue value={fmtInt(model.sessions.length)} fontSize={30} weight={600} />
-                </span>
+              <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
+                <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: "-.03em", fontVariantNumeric: "tabular-nums" }}>{fmtInt(model.sessions.length)}</span>
                 <span style={{ fontSize: 12, color: "#5B6577" }}>sessions</span>
               </div>
             </div>
@@ -362,7 +357,7 @@ function Legend({ color, label, value }: { color: string; label: string; value: 
         <span style={{ width: 10, height: 3, borderRadius: 2, background: color, boxShadow: `0 0 8px ${color}` }} />
         {label}
       </span>
-      <SecureValue value={value} fontSize={18} weight={600} />
+      <span style={{ fontSize: 18, fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{value}</span>
     </div>
   );
 }
