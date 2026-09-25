@@ -161,7 +161,7 @@ export default function LoginForm({ next }: { next: string }) {
           </span>
           Keep me signed in
         </button>
-        <span style={{ font: "500 10.5px var(--hc-mono)", letterSpacing: ".06em", color: "#5E626D" }}>12H SESSION</span>
+        <span style={{ font: "500 10.5px var(--hc-mono)", letterSpacing: ".06em", color: "#5E626D" }}>4H SESSION</span>
         {/* The visible toggle above is decorative; this is the one value the
             server action actually reads. */}
         <input type="checkbox" name="remember" checked={remember} onChange={() => {}} style={{ display: "none" }} />

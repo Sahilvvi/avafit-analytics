@@ -161,6 +161,13 @@ export async function touchAdminLogin(id: string): Promise<void> {
   await supabase.from("admin_users").update({ last_login_at: new Date().toISOString() }).eq("id", id);
 }
 
+export async function updateAdminPasswordHash(id: string, password_hash: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  const supabase = getSupabaseAdmin();
+  const { error } = await supabase.from("admin_users").update({ password_hash }).eq("id", id);
+  if (error) return { ok: false, error: error.message };
+  return { ok: true };
+}
+
 export async function updateAdminProfile(
   id: string,
   fields: { name: string; email: string }

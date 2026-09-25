@@ -1,10 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { updateAdminProfile } from "@/lib/data";
-import { createSessionToken, SESSION_COOKIE } from "@/lib/auth";
+import { changeAdminPassword, getAdminById, logAudit } from "@/lib/adminAuth";
+import { createSessionToken, SESSION_COOKIE, SESSION_MAX_AGE_S } from "@/lib/auth";
 import { getSession } from "@/lib/session";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export interface SaveProfileState {
   error?: string;
@@ -32,10 +34,41 @@ export async function saveProfileAction(_prev: SaveProfileState, formData: FormD
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 12,
+    maxAge: SESSION_MAX_AGE_S,
   });
 
   revalidatePath("/settings");
   revalidatePath("/", "layout");
   return { success: true };
+}
+
+export interface ChangePasswordState {
+  error?: string;
+  success?: boolean;
+}
+
+export async function changePasswordAction(_prev: ChangePasswordState, formData: FormData): Promise<ChangePasswordState> {
+  const session = await getSession();
+  if (!session) return { error: "Your session expired — sign in again." };
+
+  const current = String(formData.get("current") ?? "");
+  const next = String(formData.get("next") ?? "");
+  const confirm = String(formData.get("confirm") ?? "");
+  if (!current || !next) return { error: "Fill in both password fields." };
+  if (next !== confirm) return { error: "New passwords don't match." };
+
+  const result = await changeAdminPassword(session.adminId, current, next);
+  if (!result.ok) return { error: result.error };
+
+  const admin = await getAdminById(session.adminId);
+  const h = await headers();
+  const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? h.get("x-real-ip") ?? null;
+  await logAudit(session.adminId, admin?.email ?? session.name, "password_changed", { ip, userAgent: h.get("user-agent") });
+
+  // Force re-authentication with the new password rather than trusting the
+  // existing cookie — a password change should prove the new credential
+  // works, not just quietly keep the old session alive.
+  const cookieStore = await cookies();
+  cookieStore.delete(SESSION_COOKIE);
+  redirect("/login");
 }

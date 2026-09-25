@@ -11,6 +11,7 @@ import {
   insertAdminUser,
   insertAuditLog,
   touchAdminLogin,
+  updateAdminPasswordHash,
 } from "./data";
 import type { AdminUser, AuditLogEntry } from "./types";
 
@@ -76,6 +77,26 @@ export async function createAdmin(input: {
 
 export async function removeAdmin(id: string): Promise<void> {
   await deleteAdminUser(id);
+}
+
+/** Verifies the caller's current password before setting a new one — a
+ *  changed password is worthless as a security control if anyone signed in
+ *  could set a new one without proving they know the old one. */
+export async function changeAdminPassword(
+  id: string,
+  currentPassword: string,
+  newPassword: string
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const user = await fetchAdminUserById(id);
+  if (!user) return { ok: false, error: "Account not found." };
+
+  const ok = await bcrypt.compare(currentPassword, user.password_hash);
+  if (!ok) return { ok: false, error: "Current password is incorrect." };
+  if (newPassword.length < 8) return { ok: false, error: "New password must be at least 8 characters." };
+  if (newPassword === currentPassword) return { ok: false, error: "New password must be different from the current one." };
+
+  const password_hash = await hashPassword(newPassword);
+  return updateAdminPasswordHash(id, password_hash);
 }
 
 export async function logAudit(

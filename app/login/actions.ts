@@ -2,7 +2,7 @@
 
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { createSessionToken, SESSION_COOKIE } from "@/lib/auth";
+import { createSessionToken, SESSION_COOKIE, SESSION_MAX_AGE_S } from "@/lib/auth";
 import { verifyAdminCredentials, needsSetup, logAudit, getAdminById, isLoginRateLimited } from "@/lib/adminAuth";
 import { getSession } from "@/lib/session";
 
@@ -49,9 +49,9 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    // Remember me checked: persists 12h. Unchecked: a session cookie that's
-    // gone once the browser closes (no maxAge/expires at all).
-    ...(remember ? { maxAge: 60 * 60 * 12 } : {}),
+    // Remember me checked: persists SESSION_MAX_AGE_S. Unchecked: a session
+    // cookie that's gone once the browser closes (no maxAge/expires at all).
+    ...(remember ? { maxAge: SESSION_MAX_AGE_S } : {}),
   });
 
   redirect(next.startsWith("/") ? next : "/");

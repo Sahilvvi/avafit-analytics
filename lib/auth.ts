@@ -8,7 +8,11 @@
  */
 
 export const SESSION_COOKIE = "avafit_admin_session";
-const SESSION_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
+// Was 12h — shortened to tighten the window a stolen/left-open session cookie
+// stays valid for. The 5-minute idle timeout and tab-hidden auto-logout
+// (store.tsx) already end most sessions long before this absolute cap matters.
+const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
+export const SESSION_MAX_AGE_S = 4 * 60 * 60;
 
 export interface SessionPayload {
   adminId: string;

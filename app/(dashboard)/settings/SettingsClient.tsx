@@ -4,6 +4,7 @@ import { Icon } from "@/components/halcyon/icons";
 import { useDash } from "@/components/halcyon/store";
 import { PageHead, Toggle } from "@/components/halcyon/ui";
 import ProfileForm from "./ProfileForm";
+import ChangePasswordForm from "./ChangePasswordForm";
 import type { AuditLogEntry } from "@/lib/types";
 
 const ACTION_LABEL: Record<AuditLogEntry["action"], string> = {
@@ -12,6 +13,7 @@ const ACTION_LABEL: Record<AuditLogEntry["action"], string> = {
   logout: "Signed out",
   idle_logout: "Auto signed out · idle",
   hidden_logout: "Auto signed out · tab hidden",
+  password_changed: "Password changed",
 };
 
 export default function SettingsPage({ auditLog }: { auditLog: AuditLogEntry[] }) {
@@ -70,7 +72,8 @@ export default function SettingsPage({ auditLog }: { auditLog: AuditLogEntry[] }
               <h3 className="hc-h3">Security</h3>
               <span className="hc-sub">Signed in as {admin.email || admin.name} on this device</span>
             </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <ChangePasswordForm />
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
               <button className="hc-btn hc-btn-danger" onClick={signOut}>
                 <Icon name="logout" size={15} />
                 Sign out
