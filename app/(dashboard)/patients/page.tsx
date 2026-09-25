@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { Icon } from "@/components/halcyon/icons";
 import { useDash } from "@/components/halcyon/store";
 import { Avatar, EmptyRow, PageHead, SortHead, StatusPill, Timeline, sessionLog, sorter } from "@/components/halcyon/ui";
-import { SecureValue } from "@/components/halcyon/SecureValue";
 import { Spark } from "@/components/halcyon/charts";
 import { profileEntries } from "@/components/halcyon/parts";
 import { weeklyCounts, patientNotes } from "@/lib/halcyon/derive";
@@ -123,12 +122,8 @@ export default function PatientsPage() {
                     </div>
                     <span style={{ fontSize: 13.5, color: "#334155", textTransform: "capitalize" }}>{p.side ?? "—"}</span>
                     <span style={{ fontSize: 13.5, color: "#334155", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.tester}</span>
-                    <span onClick={(e) => e.stopPropagation()}>
-                      <SecureValue value={p.sessions.length} fontSize={13} weight={500} />
-                    </span>
-                    <span onClick={(e) => e.stopPropagation()}>
-                      <SecureValue value={fmtDur(p.totalS)} fontSize={12.5} weight={500} color="#334155" />
-                    </span>
+                    <span style={{ font: "500 13px var(--hc-mono)" }}>{p.sessions.length}</span>
+                    <span style={{ font: "500 12.5px var(--hc-mono)", color: "#334155" }}>{fmtDur(p.totalS)}</span>
                     <span style={{ fontSize: 13, color: "#5B6577" }}>{agoLabel(p.lastMs, nowMs)}</span>
                     <span style={{ display: "flex", color: "#64748B", transform: open ? "rotate(90deg)" : "none", transition: "transform .3s cubic-bezier(.2,.8,.2,1)" }}>
                       <Icon name="chevRight" size={16} />

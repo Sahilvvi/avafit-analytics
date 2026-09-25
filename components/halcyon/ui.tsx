@@ -33,8 +33,11 @@ export function Orb({ size = 26 }: { size?: number }) {
 export function Watermark() {
   const { admin, nowMs, ready } = useDash();
   if (!ready) return null;
-  const stamp = `${admin.name} · ${admin.email || admin.role} · ${new Date(nowMs).toLocaleString()}`;
-  const cells = Array.from({ length: 48 }, (_, i) => i);
+  // Short on purpose — a full sentence tiled across the page reads like a
+  // trial-software stamp. This is meant to be nearly invisible in normal use
+  // and only legible on close inspection of a leaked screenshot.
+  const stamp = `${admin.email || admin.name} · ${new Date(nowMs).toLocaleDateString()}`;
+  const cells = Array.from({ length: 15 }, (_, i) => i);
   return (
     <div
       aria-hidden
@@ -45,19 +48,22 @@ export function Watermark() {
         pointerEvents: "none",
         overflow: "hidden",
         display: "grid",
-        gridTemplateColumns: "repeat(4,1fr)",
-        transform: "rotate(-22deg) scale(1.4)",
+        gridTemplateColumns: "repeat(3,1fr)",
+        gap: "10vh 0",
+        transform: "rotate(-18deg) scale(1.15)",
         transformOrigin: "center",
+        mixBlendMode: "multiply",
       }}
     >
       {cells.map((i) => (
         <span
           key={i}
           style={{
-            padding: "38px 10px",
-            font: "500 12px var(--hc-mono)",
-            color: "rgba(15,23,42,0.055)",
+            padding: "0 10px",
+            font: "500 10px var(--hc-mono)",
+            color: "rgba(15,23,42,0.028)",
             whiteSpace: "nowrap",
+            textAlign: "center",
           }}
         >
           {stamp}

@@ -3,16 +3,13 @@
 import { useId, useState } from "react";
 
 /**
- * Masks a sensitive number/string by default (dots, not the real value —
- * nothing to scrape from the DOM while hidden) and reveals it as an inline
- * SVG <text> node on hover or tap, rather than a normal DOM text node. This
- * doesn't stop a screenshot of the revealed state, but it does two real
- * things: (1) a screenshot can no longer grab every value on the page in one
- * shot — each one has to be revealed individually, and (2) copy-paste /
- * view-source / a DOM scraper gets nothing while values sit masked, and even
- * once revealed there's no selectable text node to copy, only rendered
- * pixels (an SVG glyph). See the data-protection plan for the honest scope
- * of what this can and can't do.
+ * Masks a sensitive number/string by default and reveals it as an inline
+ * SVG <text> node on hover or tap, rather than a normal DOM text node — no
+ * plain text to scrape while hidden, and no selectable node once revealed
+ * (screenshots of the revealed pixels are the honest limit here, see the
+ * data-protection plan). The masked state renders as a small pill with an
+ * eye glyph, not a bare dot, so it reads as a deliberate "hidden — tap to
+ * reveal" control instead of a loading/error state.
  */
 export function SecureValue({
   value,
@@ -33,8 +30,10 @@ export function SecureValue({
   const id = useId();
   const text = String(value);
   const charW = mono ? fontSize * 0.62 : fontSize * 0.56;
-  const width = Math.max(fontSize, text.length * charW) + 2;
-  const height = fontSize * 1.35;
+  const textWidth = Math.max(fontSize, text.length * charW) + 2;
+  const height = Math.max(fontSize * 1.35, 20);
+  const pillWidth = fontSize * 2.6;
+  const width = revealed ? textWidth : pillWidth;
 
   return (
     <svg
@@ -65,9 +64,14 @@ export function SecureValue({
           {text}
         </text>
       ) : (
-        Array.from({ length: Math.min(text.length, 6) }, (_, i) => (
-          <circle key={i} cx={i * (charW * 0.9) + charW / 2} cy={height / 2} r={fontSize * 0.11} fill="#94A3B8" />
-        ))
+        <g>
+          <rect x={0} y={0} width={pillWidth} height={height} rx={height / 2} fill="rgba(67,52,220,0.08)" />
+          {/* simplified eye-off glyph */}
+          <g transform={`translate(${pillWidth * 0.28}, ${height / 2})`} stroke="#6D64E8" strokeWidth={1.4} fill="none" strokeLinecap="round">
+            <path d={`M -${fontSize * 0.42} 0 Q 0 -${fontSize * 0.32} ${fontSize * 0.42} 0 Q 0 ${fontSize * 0.32} -${fontSize * 0.42} 0 Z`} />
+            <circle cx={0} cy={0} r={fontSize * 0.11} fill="#6D64E8" stroke="none" />
+          </g>
+        </g>
       )}
     </svg>
   );
