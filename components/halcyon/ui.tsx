@@ -19,8 +19,8 @@ export function Orb({ size = 26 }: { size?: number }) {
         height: size,
         flex: "none",
         borderRadius: "50%",
-        background: "radial-gradient(circle at 35% 30%,#E8FDFF,#0AA5C2 45%,#0E6B78)",
-        boxShadow: "0 0 18px rgba(10,165,194,.6)",
+        background: "radial-gradient(circle at 35% 30%,#ECEAFF,#4334DC 45%,#241F7A)",
+        boxShadow: "0 0 18px rgba(67, 52, 220,.6)",
       }}
     />
   );
@@ -115,7 +115,7 @@ const TONE: Record<Tone, [string, string]> = {
   rose: [C.rose, "#BE123C"],
   amber: [C.amber, "#B45309"],
   green: [C.green, "#334155"],
-  cyan: [C.cyan, "#0E7490"],
+  cyan: [C.cyan, "#372BC7"],
   violet: ["#7C3AED", "#6D28D9"],
 };
 
@@ -182,7 +182,7 @@ export function Notes({ notes, drawer }: { notes: NoteItem[]; drawer?: boolean }
 
 export function Toggle({ on }: { on: boolean }) {
   return (
-    <span className="hc-toggle" style={{ background: on ? "linear-gradient(180deg,#22C3E0,#0891B2)" : "rgba(15,23,42,0.110)" }}>
+    <span className="hc-toggle" style={{ background: on ? "linear-gradient(180deg,#6C63FF,#4334DC)" : "rgba(15,23,42,0.110)" }}>
       <span className="hc-toggle-knob" style={{ transform: on ? "translateX(16px)" : "none" }} />
     </span>
   );
@@ -229,7 +229,7 @@ export function SortHead({
             }}
           >
             {label}
-            <span style={{ color: "#0AA5C2" }}>{on ? (sort.d > 0 ? " ↑" : " ↓") : ""}</span>
+            <span style={{ color: "#4334DC" }}>{on ? (sort.d > 0 ? " ↑" : " ↓") : ""}</span>
           </button>
         );
       })}

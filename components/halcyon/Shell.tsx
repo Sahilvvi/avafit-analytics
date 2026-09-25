@@ -41,7 +41,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     <div style={{ minHeight: "100vh", background: "#F6F7FB", color: "#0F172A", position: "relative", animation: "hcAppIn .7s cubic-bezier(.2,.8,.2,1) backwards" }}>
       {prefs.glow ? (
         <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden", zIndex: 0 }}>
-          <div style={{ position: "absolute", width: 700, height: 700, left: -200, top: -300, borderRadius: "50%", background: "radial-gradient(circle,rgba(10,165,194,.10),transparent 65%)" }} />
+          <div style={{ position: "absolute", width: 700, height: 700, left: -200, top: -300, borderRadius: "50%", background: "radial-gradient(circle,rgba(67, 52, 220,.10),transparent 65%)" }} />
           <div style={{ position: "absolute", width: 600, height: 600, right: -200, top: 200, borderRadius: "50%", background: "radial-gradient(circle,rgba(16,185,129,.07),transparent 65%)" }} />
         </div>
       ) : null}
@@ -85,12 +85,12 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                 top: idx * 46,
                 height: 42,
                 borderRadius: 11,
-                background: "linear-gradient(90deg,rgba(10,165,194,.14),rgba(15,23,42,0.044))",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(10,165,194,.18)",
+                background: "linear-gradient(90deg,rgba(67, 52, 220,.14),rgba(15,23,42,0.044))",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(67, 52, 220,.18)",
                 transition: "top .45s cubic-bezier(.3,.9,.25,1)",
               }}
             >
-              <div style={{ position: "absolute", left: -16, top: 11, width: 3, height: 20, borderRadius: "0 3px 3px 0", background: "#0AA5C2", boxShadow: "0 0 12px #0AA5C2" }} />
+              <div style={{ position: "absolute", left: -16, top: 11, width: 3, height: 20, borderRadius: "0 3px 3px 0", background: "#4334DC", boxShadow: "0 0 12px #4334DC" }} />
             </div>
             {NAV.map((n, i) => (
               <button
@@ -100,7 +100,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                 style={cssVars({ "--fg": i === idx ? "#0F172A" : "#5B6577" })}
                 onClick={() => go(n.href)}
               >
-                <span style={{ display: "flex", flex: "none", color: i === idx ? "#0AA5C2" : "#64748B", transition: "color .25s" }}>
+                <span style={{ display: "flex", flex: "none", color: i === idx ? "#4334DC" : "#64748B", transition: "color .25s" }}>
                   <Icon name={n.icon} />
                 </span>
                 <span style={{ flex: 1, opacity: lblOp, transition: "opacity .25s", textAlign: "left" }}>{n.label}</span>

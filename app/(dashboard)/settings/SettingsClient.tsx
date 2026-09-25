@@ -36,7 +36,7 @@ export default function SettingsPage({ auditLog }: { auditLog: AuditLogEntry[] }
                   alignItems: "center",
                   justifyContent: "center",
                   font: "600 18px var(--hc-sans)",
-                  boxShadow: "0 0 30px -6px rgba(10,165,194,.4)",
+                  boxShadow: "0 0 30px -6px rgba(67, 52, 220,.4)",
                 }}
               >
                 {admin.name.slice(0, 1).toUpperCase()}

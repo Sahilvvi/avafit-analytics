@@ -87,7 +87,7 @@ export default function PatientsPage() {
                 key={c.key}
                 onClick={() => set({ pStatus: c.key, page: 0 })}
                 className="hc-chip"
-                style={{ ["--bd" as string]: on ? "rgba(10,165,194,.35)" : "rgba(15,23,42,.08)", ["--bg" as string]: on ? "rgba(10,165,194,.1)" : "rgba(15,23,42,0.044)", ["--fg" as string]: on ? "#0E7490" : "#334155" }}
+                style={{ ["--bd" as string]: on ? "rgba(67, 52, 220,.35)" : "rgba(15,23,42,.08)", ["--bg" as string]: on ? "rgba(67, 52, 220,.1)" : "rgba(15,23,42,0.044)", ["--fg" as string]: on ? "#372BC7" : "#334155" }}
               >
                 <span style={{ width: 6, height: 6, borderRadius: "50%", background: c.dot }} />
                 {c.label}
@@ -112,7 +112,7 @@ export default function PatientsPage() {
                     key={p.id}
                     onClick={() => set({ expanded: open ? null : p.id })}
                     className="hc-row"
-                    style={{ display: "grid", gridTemplateColumns: "minmax(220px,2.2fr) 90px minmax(140px,1.3fr) 96px 116px 130px 36px", gap: 12, padding: "0 20px", height: prefs.compact ? 52 : 64, alignItems: "center", borderBottom: "1px solid rgba(15,23,42,0.055)", background: open ? "rgba(10,165,194,.05)" : undefined }}
+                    style={{ display: "grid", gridTemplateColumns: "minmax(220px,2.2fr) 90px minmax(140px,1.3fr) 96px 116px 130px 36px", gap: 12, padding: "0 20px", height: prefs.compact ? 52 : 64, alignItems: "center", borderBottom: "1px solid rgba(15,23,42,0.055)", background: open ? "rgba(67, 52, 220,.05)" : undefined }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
                       <Avatar hue={p.hue} initials={p.initials} />
@@ -222,7 +222,7 @@ export default function PatientsPage() {
                   key={i}
                   onClick={() => set({ page: i })}
                   className="hc-page-btn"
-                  style={{ ["--bd" as string]: i === page ? "rgba(10,165,194,.4)" : "rgba(15,23,42,.08)", ["--bg" as string]: i === page ? "rgba(10,165,194,.1)" : "transparent", ["--fg" as string]: i === page ? "#0E7490" : "#334155", font: "500 13px var(--hc-mono)" }}
+                  style={{ ["--bd" as string]: i === page ? "rgba(67, 52, 220,.4)" : "rgba(15,23,42,.08)", ["--bg" as string]: i === page ? "rgba(67, 52, 220,.1)" : "transparent", ["--fg" as string]: i === page ? "#372BC7" : "#334155", font: "500 13px var(--hc-mono)" }}
                 >
                   {i + 1}
                 </button>

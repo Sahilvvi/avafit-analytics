@@ -17,7 +17,7 @@ export default async function LoginPage({
   return (
     <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,460px),1fr))", background: "var(--hc-bg)", animation: "hcFadeIn .6s ease both" }}>
       <div className="hc-login-hero" style={{ position: "relative", overflow: "hidden", minHeight: 560, padding: "44px 48px", display: "flex", flexDirection: "column", justifyContent: "space-between", borderRight: "1px solid rgba(15,23,42,0.066)", background: "#EEF2F8" }}>
-        <div className="hc-mesh-a" style={{ width: 520, height: 520, left: -120, top: -80, background: "radial-gradient(circle,rgba(10,165,194,.22),transparent 65%)", filter: "blur(20px)", animation: "hcDrift 14s ease-in-out infinite" }} />
+        <div className="hc-mesh-a" style={{ width: 520, height: 520, left: -120, top: -80, background: "radial-gradient(circle,rgba(67, 52, 220,.22),transparent 65%)", filter: "blur(20px)", animation: "hcDrift 14s ease-in-out infinite" }} />
         <div className="hc-mesh-a" style={{ width: 460, height: 460, right: -140, bottom: -120, background: "radial-gradient(circle,rgba(16,185,129,.16),transparent 65%)", filter: "blur(20px)", animation: "hcDrift 18s ease-in-out infinite reverse" }} />
         <div
           style={{
@@ -32,7 +32,7 @@ export default async function LoginPage({
         />
 
         <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, animation: "hcFadeUp .7s .1s both" }}>
-          <div style={{ width: 26, height: 26, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#E8FDFF,#0AA5C2 45%,#0E6B78)", boxShadow: "0 0 18px rgba(10,165,194,.6)" }} />
+          <div style={{ width: 26, height: 26, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#ECEAFF,#4334DC 45%,#241F7A)", boxShadow: "0 0 18px rgba(67, 52, 220,.6)" }} />
           <span style={{ fontWeight: 600, fontSize: 17, letterSpacing: "-.01em" }}>{BRAND}</span>
           <span style={{ font: "500 11px var(--hc-mono)", color: "#64748B", marginLeft: 4, padding: "3px 7px", border: "1px solid rgba(15,23,42,0.11)", borderRadius: 6 }}>{BRAND_TAG}</span>
         </div>
@@ -44,14 +44,14 @@ export default async function LoginPage({
                 position: "absolute",
                 inset: 0,
                 borderRadius: "50%",
-                background: "conic-gradient(from 0deg,transparent,#0AA5C2,#10B981,transparent 70%)",
+                background: "conic-gradient(from 0deg,transparent,#4334DC,#10B981,transparent 70%)",
                 animation: "hcSpin 6s linear infinite",
                 mask: "radial-gradient(circle,transparent 52px,#000 53px)",
                 WebkitMask: "radial-gradient(circle,transparent 52px,#000 53px)",
               }}
             />
-            <div style={{ position: "absolute", inset: 14, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#E8FDFF,#0AA5C2 40%,#0A4F59 85%)", animation: "hcBreathe 4s ease-in-out infinite" }} />
-            <span style={{ position: "absolute", left: 38, top: 38, color: "#06232A" }}>
+            <div style={{ position: "absolute", inset: 14, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#ECEAFF,#4334DC 40%,#1E1B8F 85%)", animation: "hcBreathe 4s ease-in-out infinite" }} />
+            <span style={{ position: "absolute", left: 38, top: 38, color: "#14103D" }}>
               <Icon name="activity" size={36} sw={2.4} />
             </span>
           </div>
@@ -71,7 +71,7 @@ export default async function LoginPage({
 
       <div className="hc-login-formwrap" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 24px", position: "relative" }}>
         <div className="hc-login-mobile-brand" style={{ alignItems: "center", gap: 10, marginBottom: 28, width: "100%", maxWidth: 380 }}>
-          <div style={{ width: 26, height: 26, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#E8FDFF,#0AA5C2 45%,#0E6B78)", boxShadow: "0 0 18px rgba(10,165,194,.6)" }} />
+          <div style={{ width: 26, height: 26, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#ECEAFF,#4334DC 45%,#241F7A)", boxShadow: "0 0 18px rgba(67, 52, 220,.6)" }} />
           <span style={{ fontWeight: 600, fontSize: 17, letterSpacing: "-.01em" }}>{BRAND}</span>
           <span style={{ font: "500 11px var(--hc-mono)", color: "#64748B", marginLeft: 4, padding: "3px 7px", border: "1px solid rgba(15,23,42,0.11)", borderRadius: 6 }}>{BRAND_TAG}</span>
         </div>

@@ -38,7 +38,7 @@ export default function PatientDetailPage() {
       </button>
 
       <div className="hc-card" style={{ padding: 24, display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", position: "relative", overflow: "hidden" }}>
-        <div className="hc-mesh-a" style={{ width: 360, height: 360, right: -120, top: -200, background: "radial-gradient(circle,rgba(10,165,194,.12),transparent 65%)" }} />
+        <div className="hc-mesh-a" style={{ width: 360, height: 360, right: -120, top: -200, background: "radial-gradient(circle,rgba(67, 52, 220,.12),transparent 65%)" }} />
         <Avatar hue={patient.hue} initials={patient.initials} size={72} fs={22} />
         <div style={{ flex: "1 1 260px", display: "flex", flexDirection: "column", gap: 8, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
@@ -68,7 +68,7 @@ export default function PatientDetailPage() {
             </div>
             <div style={{ height: 96, display: "flex", alignItems: "flex-end", gap: 4 }}>
               {wk.map((v, i) => (
-                <div key={i} title={`${v} session${v === 1 ? "" : "s"}`} style={{ flex: 1, height: `${Math.max(4, (v / maxWk) * 100)}%`, borderRadius: "6px 6px 2px 2px", background: v ? `linear-gradient(180deg,${C.cyan},rgba(10,165,194,.3))` : "rgba(15,23,42,.08)" }} />
+                <div key={i} title={`${v} session${v === 1 ? "" : "s"}`} style={{ flex: 1, height: `${Math.max(4, (v / maxWk) * 100)}%`, borderRadius: "6px 6px 2px 2px", background: v ? `linear-gradient(180deg,${C.cyan},rgba(67, 52, 220,.3))` : "rgba(15,23,42,.08)" }} />
               ))}
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", font: "400 11px var(--hc-mono)", color: "#8A94A6" }}>

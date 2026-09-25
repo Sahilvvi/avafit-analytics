@@ -92,7 +92,7 @@ export default function ReportsPage() {
               <button
                 key={r.key}
                 onClick={() => set({ report: r.key })}
-                style={{ display: "flex", flexDirection: "column", gap: 6, padding: "16px 18px", borderRadius: 16, border: `1px solid ${on ? "rgba(15,23,42,0.14)" : "rgba(15,23,42,0.08)"}`, background: on ? "rgba(10,165,194,.06)" : "rgba(15,23,42,0.039)", color: "#0F172A", textAlign: "left", cursor: "pointer", transition: "all .3s cubic-bezier(.2,.8,.2,1)" }}
+                style={{ display: "flex", flexDirection: "column", gap: 6, padding: "16px 18px", borderRadius: 16, border: `1px solid ${on ? "rgba(15,23,42,0.14)" : "rgba(15,23,42,0.08)"}`, background: on ? "rgba(67, 52, 220,.06)" : "rgba(15,23,42,0.039)", color: "#0F172A", textAlign: "left", cursor: "pointer", transition: "all .3s cubic-bezier(.2,.8,.2,1)" }}
               >
                 <span style={{ display: "flex", justifyContent: "space-between", gap: 10, font: "600 14.5px var(--hc-sans)" }}>
                   {r.title}

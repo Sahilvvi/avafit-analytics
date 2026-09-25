@@ -3,7 +3,7 @@ export const MONTHS = ["January", "February", "March", "April", "May", "June", "
 export const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export const C = {
-  cyan: "#0AA5C2",
+  cyan: "#4334DC",
   green: "#10B981",
   amber: "#D97706",
   rose: "#E11D48",
@@ -84,7 +84,7 @@ export function deviceLabel(raw: string | null | undefined): string {
 export const STATUS_STYLE: Record<string, [string, string]> = {
   Live: [C.green, "rgba(16,185,129,.12)"],
   Active: [C.green, "rgba(16,185,129,.12)"],
-  Completed: [C.cyan, "rgba(10,165,194,.10)"],
+  Completed: [C.cyan, "rgba(67, 52, 220,.10)"],
   Idle: ["#64748B", "rgba(100,116,139,.12)"],
 };
 

@@ -136,7 +136,7 @@ export function useNotifications() {
     const sessionItems: NotifItem[] = model.sessions.slice(0, 20).map((s) => ({
       key: `s-${s.id}`,
       ms: s.startMs ?? 0,
-      dot: s.status === "Live" ? "#10B981" : "#0AA5C2",
+      dot: s.status === "Live" ? "#10B981" : "#4334DC",
       title: `${s.tester} logged a session`,
       sub: `${s.patient} · ${s.device}`,
       open: () => go(`/sessions/${s.id}`),
@@ -286,7 +286,7 @@ export function Palette() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{ width: "min(640px,100%)", borderRadius: 20, background: "rgba(255,255,255,.97)", backdropFilter: "blur(30px)", border: "1px solid rgba(15,23,42,0.132)", boxShadow: "0 40px 100px rgba(15,23,42,0.21),0 0 60px -20px rgba(10,165,194,.3)", overflow: "hidden", animation: "hcFadeUp .25s cubic-bezier(.2,.8,.2,1) both" }}
+        style={{ width: "min(640px,100%)", borderRadius: 20, background: "rgba(255,255,255,.97)", backdropFilter: "blur(30px)", border: "1px solid rgba(15,23,42,0.132)", boxShadow: "0 40px 100px rgba(15,23,42,0.21),0 0 60px -20px rgba(67, 52, 220,.3)", overflow: "hidden", animation: "hcFadeUp .25s cubic-bezier(.2,.8,.2,1) both" }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 18px", borderBottom: "1px solid rgba(15,23,42,0.077)", color: "#64748B" }}>
           <Icon name="search" size={18} />
@@ -323,14 +323,14 @@ export function Palette() {
                 <button
                   onMouseEnter={() => set({ pi: i })}
                   onClick={() => runAt(i)}
-                  style={{ width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "9px 12px", borderRadius: 11, border: 0, background: on ? "rgba(10,165,194,.08)" : "transparent", color: "#0F172A", textAlign: "left", cursor: "pointer", transition: "background .15s" }}
+                  style={{ width: "100%", display: "flex", alignItems: "center", gap: 12, padding: "9px 12px", borderRadius: 11, border: 0, background: on ? "rgba(67, 52, 220,.08)" : "transparent", color: "#0F172A", textAlign: "left", cursor: "pointer", transition: "background .15s" }}
                 >
                   <span style={{ width: 30, height: 30, flex: "none", borderRadius: 9, background: "rgba(15,23,42,0.066)", display: "flex", alignItems: "center", justifyContent: "center", font: "600 11px var(--hc-mono)", color: "#5B6577" }}>{e.glyph}</span>
                   <span style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 1 }}>
                     <span style={{ font: "500 14px var(--hc-sans)" }}>{e.label}</span>
                     <span style={{ font: "400 12px var(--hc-sans)", color: "#64748B", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{e.sub}</span>
                   </span>
-                  <span style={{ font: "500 12px var(--hc-mono)", color: "#0AA5C2", opacity: on ? 1 : 0 }}>↵</span>
+                  <span style={{ font: "500 12px var(--hc-mono)", color: "#4334DC", opacity: on ? 1 : 0 }}>↵</span>
                 </button>
               </div>
             );

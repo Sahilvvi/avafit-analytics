@@ -37,8 +37,8 @@ function Field({
       <div
         className="hc-login-field"
         style={{
-          border: `1px solid ${hasErr ? "rgba(225,29,72,.5)" : focused ? "rgba(10,165,194,.55)" : "rgba(15,23,42,0.11)"}`,
-          boxShadow: focused ? "0 0 0 4px rgba(10,165,194,.1)" : "none",
+          border: `1px solid ${hasErr ? "rgba(225,29,72,.5)" : focused ? "rgba(67, 52, 220,.55)" : "rgba(15,23,42,0.11)"}`,
+          boxShadow: focused ? "0 0 0 4px rgba(67, 52, 220,.1)" : "none",
         }}
       >
         <label
@@ -102,14 +102,14 @@ function SubmitButton() {
         borderRadius: 14,
         border: 0,
         cursor: pending ? "default" : "pointer",
-        background: "linear-gradient(180deg,#22C3E0,#0891B2)",
+        background: "linear-gradient(180deg,#6C63FF,#4334DC)",
         color: "#FFFFFF",
         font: "600 15.5px var(--hc-sans)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         gap: 8,
-        boxShadow: "0 10px 30px -10px rgba(10,165,194,.7),inset 0 1px 0 rgba(255,255,255,.5)",
+        boxShadow: "0 10px 30px -10px rgba(67, 52, 220,.7),inset 0 1px 0 rgba(255,255,255,.5)",
         opacity: pending ? 0.85 : 1,
       }}
     >
@@ -168,7 +168,7 @@ export default function LoginForm({ next }: { next: string }) {
           onClick={() => setRemember((v) => !v)}
           style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: 0, color: "#334155", font: "400 14px var(--hc-sans)", cursor: "pointer", padding: 0 }}
         >
-          <span style={{ position: "relative", width: 38, height: 22, borderRadius: 999, background: remember ? "linear-gradient(180deg,#22C3E0,#0891B2)" : "rgba(15,23,42,0.11)", transition: "background .3s cubic-bezier(.2,.8,.2,1)", boxShadow: "inset 0 0 0 1px rgba(15,23,42,0.088)" }}>
+          <span style={{ position: "relative", width: 38, height: 22, borderRadius: 999, background: remember ? "linear-gradient(180deg,#6C63FF,#4334DC)" : "rgba(15,23,42,0.11)", transition: "background .3s cubic-bezier(.2,.8,.2,1)", boxShadow: "inset 0 0 0 1px rgba(15,23,42,0.088)" }}>
             <span style={{ position: "absolute", top: 2, left: 2, width: 18, height: 18, borderRadius: "50%", background: "#fff", boxShadow: "0 2px 6px rgba(15,23,42,0.14)", transform: remember ? "translateX(16px)" : "none", transition: "transform .3s cubic-bezier(.3,1.4,.5,1)" }} />
           </span>
           Remember me

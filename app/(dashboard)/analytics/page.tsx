@@ -90,7 +90,7 @@ export default function AnalyticsPage() {
                     <span style={{ font: "500 12.5px var(--hc-mono)", color: "#5B6577" }}>{pct}%</span>
                   </div>
                   <div style={{ height: 10, borderRadius: 5, background: "rgba(15,23,42,0.055)", overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: `${pct}%`, borderRadius: 5, background: `linear-gradient(90deg,rgba(10,165,194,.5),${C.cyan})`, boxShadow: "0 0 14px rgba(10,165,194,.5)", transition: "width .8s cubic-bezier(.2,.8,.2,1)" }} />
+                    <div style={{ height: "100%", width: `${pct}%`, borderRadius: 5, background: `linear-gradient(90deg,rgba(67, 52, 220,.5),${C.cyan})`, boxShadow: "0 0 14px rgba(67, 52, 220,.5)", transition: "width .8s cubic-bezier(.2,.8,.2,1)" }} />
                   </div>
                 </div>
               );
@@ -134,7 +134,7 @@ export default function AnalyticsPage() {
               <div
                 key={h}
                 title={`${h}:00 · ${n} session${n === 1 ? "" : "s"}`}
-                style={{ height: `${Math.max(3, (n / maxHourly) * 100)}%`, borderRadius: "4px 4px 2px 2px", background: n ? C.cyan : "rgba(15,23,42,.08)", boxShadow: n ? "0 0 10px -2px rgba(10,165,194,.5)" : "none", transition: "transform .25s,filter .25s" }}
+                style={{ height: `${Math.max(3, (n / maxHourly) * 100)}%`, borderRadius: "4px 4px 2px 2px", background: n ? C.cyan : "rgba(15,23,42,.08)", boxShadow: n ? "0 0 10px -2px rgba(67, 52, 220,.5)" : "none", transition: "transform .25s,filter .25s" }}
               />
             ))}
           </div>

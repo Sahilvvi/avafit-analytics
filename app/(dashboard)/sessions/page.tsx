@@ -64,7 +64,7 @@ export default function SessionsPage() {
                 key={c.key}
                 onClick={() => set({ sDevice: c.key })}
                 className="hc-chip"
-                style={{ ["--bd" as string]: on ? "rgba(10,165,194,.35)" : "rgba(15,23,42,.08)", ["--bg" as string]: on ? "rgba(10,165,194,.1)" : "rgba(15,23,42,0.044)", ["--fg" as string]: on ? "#0E7490" : "#334155" }}
+                style={{ ["--bd" as string]: on ? "rgba(67, 52, 220,.35)" : "rgba(15,23,42,.08)", ["--bg" as string]: on ? "rgba(67, 52, 220,.1)" : "rgba(15,23,42,0.044)", ["--fg" as string]: on ? "#372BC7" : "#334155" }}
               >
                 {c.label}
                 <span style={{ font: "500 11.5px var(--hc-mono)", opacity: 0.7 }}>{c.count}</span>

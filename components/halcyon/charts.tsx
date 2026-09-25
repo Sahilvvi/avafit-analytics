@@ -87,7 +87,7 @@ export function DualLines({
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }}
     >
       <defs>
-        {grad(`gA${uid}`, "#0AA5C2", 0.28)}
+        {grad(`gA${uid}`, "#4334DC", 0.28)}
         {grad(`gB${uid}`, "#10B981", 0.16)}
       </defs>
       {[0, 1, 2, 3, 4].map((k) => (
@@ -116,11 +116,11 @@ export function DualLines({
       <path
         d={lA}
         fill="none"
-        stroke="#0AA5C2"
+        stroke="#4334DC"
         strokeWidth={2.4}
         vectorEffect="non-scaling-stroke"
         pathLength={1}
-        style={{ strokeDasharray: 1, animation: "hcDraw 1.4s .1s cubic-bezier(.2,.8,.2,1) both", filter: "drop-shadow(0 4px 8px rgba(10,165,194,.35))" }}
+        style={{ strokeDasharray: 1, animation: "hcDraw 1.4s .1s cubic-bezier(.2,.8,.2,1) both", filter: "drop-shadow(0 4px 8px rgba(67, 52, 220,.35))" }}
       />
     </svg>
   );

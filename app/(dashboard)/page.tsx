@@ -173,7 +173,7 @@ export default function OverviewPage() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}>
         <KpiCard
           icon="users"
-          iconBg="rgba(10,165,194,.12)"
+          iconBg="rgba(67, 52, 220,.12)"
           iconFg={C.cyan}
           label="Active patients"
           value={fmtInt(cur.patients)}
@@ -181,8 +181,8 @@ export default function OverviewPage() {
           delta={deltaOf(cur.patients, prev.patients)}
           spark={series.map((p) => p.patients)}
           sparkColor={C.cyan}
-          tintBd="rgba(10,165,194,.3)"
-          tintSh="rgba(10,165,194,.45)"
+          tintBd="rgba(67, 52, 220,.3)"
+          tintSh="rgba(67, 52, 220,.45)"
         />
         <KpiCard
           icon="activity"
@@ -255,7 +255,7 @@ export default function OverviewPage() {
               <LiveDot />
               <h3 className="hc-h3">Latest sessions</h3>
             </div>
-            <span style={{ font: "600 12px var(--hc-mono)", color: C.cyan, padding: "3px 9px", borderRadius: 999, background: "rgba(10,165,194,.12)" }}>{latest.length}</span>
+            <span style={{ font: "600 12px var(--hc-mono)", color: C.cyan, padding: "3px 9px", borderRadius: 999, background: "rgba(67, 52, 220,.12)" }}>{latest.length}</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {latest.map((s: DSession) => (
@@ -336,7 +336,7 @@ export default function OverviewPage() {
           <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.max(1, testerBars.length)},minmax(0,1fr))`, gap: 14, alignItems: "end", height: 200, borderBottom: "1px solid rgba(15,23,42,0.066)", paddingBottom: 2 }}>
             {testerBars.map((t) => (
               <div key={t.id} title={`${t.name} · ${t.sessions.length} sessions`} style={{ height: "100%", display: "flex", alignItems: "flex-end", justifyContent: "center", position: "relative", transition: "transform .3s cubic-bezier(.2,.8,.2,1)" }}>
-                <div style={{ width: "44%", maxWidth: 36, height: `${Math.max(4, (t.sessions.length / maxTesterSessions) * 100)}%`, borderRadius: "7px 7px 3px 3px", background: `linear-gradient(180deg,${C.cyan},rgba(10,165,194,.25))`, boxShadow: `0 0 18px -4px rgba(10,165,194,.6)`, transition: "height .7s cubic-bezier(.2,.8,.2,1)" }} />
+                <div style={{ width: "44%", maxWidth: 36, height: `${Math.max(4, (t.sessions.length / maxTesterSessions) * 100)}%`, borderRadius: "7px 7px 3px 3px", background: `linear-gradient(180deg,${C.cyan},rgba(67, 52, 220,.25))`, boxShadow: `0 0 18px -4px rgba(67, 52, 220,.6)`, transition: "height .7s cubic-bezier(.2,.8,.2,1)" }} />
               </div>
             ))}
             {testerBars.length === 0 ? <span style={{ fontSize: 13, color: "#64748B", alignSelf: "center", justifySelf: "center" }}>No testers yet.</span> : null}
