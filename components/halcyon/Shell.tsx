@@ -70,7 +70,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 10px" }}>
           <Orb />
-          <span style={{ fontWeight: 600, fontSize: 17, letterSpacing: "-.01em", opacity: lblOp, transition: "opacity .25s" }}>{BRAND}</span>
+          <span className="hc-brand" style={{ fontSize: 17, opacity: lblOp, transition: "opacity .25s" }}>{BRAND}</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <span className="hc-eyebrow" style={{ color: "#8A94A6", letterSpacing: ".08em", padding: "0 12px", opacity: lblOp, transition: "opacity .25s" }}>

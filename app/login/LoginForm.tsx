@@ -134,7 +134,7 @@ export default function LoginForm({ next }: { next: string }) {
     <form action={formAction} noValidate style={{ width: "100%", maxWidth: 380, display: "flex", flexDirection: "column", gap: 16, animation: "hcFadeUp .8s .25s cubic-bezier(.2,.8,.2,1) both" }}>
       <input type="hidden" name="next" value={next} />
       <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 10 }}>
-        <h2 style={{ margin: 0, fontSize: 28, fontWeight: 600, letterSpacing: "-.025em" }}>Welcome back</h2>
+        <h2 style={{ margin: 0, fontFamily: "var(--hc-heading)", fontSize: 28, fontWeight: 700, letterSpacing: "-.02em" }}>Welcome back</h2>
         <p style={{ margin: 0, fontSize: 14.5, color: "#5B6577" }}>Sign in with your admin credentials.</p>
       </div>
 

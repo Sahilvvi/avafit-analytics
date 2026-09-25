@@ -23,6 +23,7 @@
 
   --hc-sans: var(--font-geist), system-ui, sans-serif;
   --hc-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --hc-heading: var(--font-raleway), var(--font-geist), system-ui, sans-serif;
 
   --page-plane: #f6f7fb;
   --surface-1: #ffffff;
@@ -236,14 +237,22 @@ textarea,
 }
 .hc-h1 {
   margin: 0;
+  font-family: var(--hc-heading);
   font-size: 32px;
-  font-weight: 600;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 .hc-h3 {
   margin: 0;
+  font-family: var(--hc-heading);
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.hc-brand {
+  font-family: var(--hc-heading);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 .hc-sub {
   font-size: 13px;
@@ -252,15 +261,15 @@ textarea,
 .hc-page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   animation: hcFadeUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .hc-card {
   border-radius: 20px;
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 30px -18px rgba(15, 23, 42, 0.18);
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 2px 6px rgba(15, 23, 42, 0.05), 0 16px 40px -20px rgba(15, 23, 42, 0.22);
 }
 .hc-glass {
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -297,6 +306,7 @@ textarea,
   align-items: center;
   gap: 8px;
   white-space: nowrap;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 1px 2px rgba(15, 23, 42, 0.04);
   transition: all 0.2s;
 }
 .hc-btn:hover {

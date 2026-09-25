@@ -33,7 +33,7 @@ export default async function LoginPage({
 
         <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 10, animation: "hcFadeUp .7s .1s both" }}>
           <div style={{ width: 26, height: 26, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#ECEAFF,#4334DC 45%,#241F7A)", boxShadow: "0 0 18px rgba(67, 52, 220,.6)" }} />
-          <span style={{ fontWeight: 600, fontSize: 17, letterSpacing: "-.01em" }}>{BRAND}</span>
+          <span className="hc-brand" style={{ fontSize: 17 }}>{BRAND}</span>
           <span style={{ font: "500 11px var(--hc-mono)", color: "#64748B", marginLeft: 4, padding: "3px 7px", border: "1px solid rgba(15,23,42,0.11)", borderRadius: 6 }}>{BRAND_TAG}</span>
         </div>
 
@@ -56,7 +56,7 @@ export default async function LoginPage({
             </span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 14, animation: "hcFadeUp .9s .35s cubic-bezier(.2,.8,.2,1) both" }}>
-            <h1 style={{ margin: 0, fontSize: "clamp(34px,4vw,50px)", lineHeight: 1.04, fontWeight: 600, letterSpacing: "-.035em" }}>Every patient, every session, in one calm view.</h1>
+            <h1 style={{ margin: 0, fontFamily: "var(--hc-heading)", fontSize: "clamp(34px,4vw,50px)", lineHeight: 1.04, fontWeight: 700, letterSpacing: "-.025em" }}>Every patient, every session, in one calm view.</h1>
             <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55, color: "#5B6577", maxWidth: 400 }}>
               Patients, logging sessions and tester activity from the AVA Fit iOS and desktop apps, synced from Supabase as it happens.
             </p>
@@ -72,7 +72,7 @@ export default async function LoginPage({
       <div className="hc-login-formwrap" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 24px", position: "relative" }}>
         <div className="hc-login-mobile-brand" style={{ alignItems: "center", gap: 10, marginBottom: 28, width: "100%", maxWidth: 380 }}>
           <div style={{ width: 26, height: 26, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%,#ECEAFF,#4334DC 45%,#241F7A)", boxShadow: "0 0 18px rgba(67, 52, 220,.6)" }} />
-          <span style={{ fontWeight: 600, fontSize: 17, letterSpacing: "-.01em" }}>{BRAND}</span>
+          <span className="hc-brand" style={{ fontSize: 17 }}>{BRAND}</span>
           <span style={{ font: "500 11px var(--hc-mono)", color: "#64748B", marginLeft: 4, padding: "3px 7px", border: "1px solid rgba(15,23,42,0.11)", borderRadius: 6 }}>{BRAND_TAG}</span>
         </div>
         <LoginForm next={params.next ?? "/"} />

@@ -18,7 +18,7 @@ export default async function SetupPage() {
       <div style={{ width: "100%", maxWidth: 380 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
           <Orb />
-          <span style={{ fontWeight: 600, fontSize: 17, letterSpacing: "-.01em" }}>{BRAND}</span>
+          <span className="hc-brand" style={{ fontSize: 17 }}>{BRAND}</span>
           <span style={{ font: "500 11px var(--hc-mono)", color: "#64748B", marginLeft: 4, padding: "3px 7px", border: "1px solid rgba(15,23,42,0.11)", borderRadius: 6 }}>{BRAND_TAG}</span>
         </div>
 
