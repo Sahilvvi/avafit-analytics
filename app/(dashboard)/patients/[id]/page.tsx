@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { Icon } from "@/components/halcyon/icons";
 import { useDash } from "@/components/halcyon/store";
 import { Avatar, EmptyRow, Notes, StatusPill, STATUS_HINT } from "@/components/halcyon/ui";
+import { RevealBlock } from "@/components/halcyon/RevealBlock";
 import { SensorProfile } from "@/components/halcyon/parts";
 import { weeklyCounts, patientNotes } from "@/lib/halcyon/derive";
 import { agoLabel, fmtDur, fmtInt, whenLabel, C } from "@/lib/halcyon/format";
@@ -109,7 +110,9 @@ export default function PatientDetailPage() {
         <div style={{ flex: "1 1 320px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="hc-card" style={{ padding: 22, display: "flex", flexDirection: "column", gap: 14 }}>
             <span className="hc-eyebrow">SENSOR PROFILE</span>
-            <SensorProfile patient={patient} />
+            <RevealBlock label="Tap to reveal profile">
+              <SensorProfile patient={patient} />
+            </RevealBlock>
           </div>
           <div className="hc-card" style={{ padding: 22, display: "flex", flexDirection: "column", gap: 14 }}>
             <span className="hc-eyebrow">TESTER</span>
@@ -123,8 +126,13 @@ export default function PatientDetailPage() {
           </div>
           <div className="hc-card" style={{ padding: 22, display: "flex", flexDirection: "column", gap: 12 }}>
             <span className="hc-eyebrow">NOTES</span>
-            <Notes notes={notes} />
-            {notes.length === 0 ? <span style={{ fontSize: 13, color: "#8C909B" }}>No notes yet.</span> : null}
+            {notes.length === 0 ? (
+              <span style={{ fontSize: 13, color: "#8C909B" }}>No notes yet.</span>
+            ) : (
+              <RevealBlock label="Tap to reveal notes">
+                <Notes notes={notes} />
+              </RevealBlock>
+            )}
           </div>
         </div>
       </div>

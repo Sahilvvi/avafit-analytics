@@ -17,7 +17,7 @@ const ACTION_LABEL: Record<AuditLogEntry["action"], string> = {
 };
 
 export default function SettingsPage({ auditLog }: { auditLog: AuditLogEntry[] }) {
-  const { admin, prefs, setPref, signOut, go } = useDash();
+  const { admin, prefs, setPref, signOut, go, ready } = useDash();
 
   return (
     <div className="hc-page">
@@ -96,7 +96,11 @@ export default function SettingsPage({ auditLog }: { auditLog: AuditLogEntry[] }
                       <span style={{ fontSize: 13, fontWeight: 500 }}>{ACTION_LABEL[e.action]}</span>
                       <span style={{ fontSize: 12, color: "#8C909B", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.admin_email}{e.ip ? ` · ${e.ip}` : ""}</span>
                     </span>
-                    <span style={{ fontSize: 12, color: "#8C909B", whiteSpace: "nowrap" }}>{new Date(e.created_at).toLocaleString()}</span>
+                    {/* Locale-formatted dates render differently server vs. client
+                        (different ICU data) — a hydration mismatch. `ready` is false
+                        during SSR and true after hydration, so the first client
+                        render matches the server before swapping in the real string. */}
+                    <span style={{ fontSize: 12, color: "#8C909B", whiteSpace: "nowrap" }}>{ready ? new Date(e.created_at).toLocaleString() : "…"}</span>
                   </div>
                 ))
               )}
