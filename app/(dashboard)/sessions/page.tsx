@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { Icon } from "@/components/halcyon/icons";
 import { useDash } from "@/components/halcyon/store";
 import { Avatar, EmptyRow, PageHead, SortHead, StatusPill, sorter } from "@/components/halcyon/ui";
+import { SecureValue } from "@/components/halcyon/SecureValue";
 import { fmtDur, fmtInt, whenLabel } from "@/lib/halcyon/format";
 import type { DSession } from "@/lib/halcyon/types";
 
@@ -106,8 +107,12 @@ export default function SessionsPage() {
                 </div>
                 <span style={{ fontSize: 13, color: "#5B6577" }}>{s.device}</span>
                 <span style={{ fontSize: 13, color: "#334155", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.tester}</span>
-                <span style={{ font: "400 12.5px var(--hc-mono)", color: "#5B6577" }}>{fmtDur(s.durS)}</span>
-                <span style={{ font: "500 13px var(--hc-mono)" }}>{fmtInt(s.rows)}</span>
+                <span onClick={(e) => e.stopPropagation()}>
+                  <SecureValue value={fmtDur(s.durS)} fontSize={12.5} weight={400} color="#5B6577" />
+                </span>
+                <span onClick={(e) => e.stopPropagation()}>
+                  <SecureValue value={fmtInt(s.rows)} fontSize={13} weight={500} />
+                </span>
                 <StatusPill status={s.status} pulse={s.status === "Live"} />
                 <span style={{ fontSize: 13, color: "#5B6577" }}>{whenLabel(s.startMs, nowMs)}</span>
               </div>

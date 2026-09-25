@@ -195,6 +195,14 @@ textarea,
   -webkit-user-select: text;
 }
 
+/* Blocks Ctrl+P/Cmd+P (JS-blocked already) AND the browser's own Print menu
+   item, which no keydown listener can intercept. */
+@media print {
+  body {
+    display: none !important;
+  }
+}
+
 /* ---------------------------------------------------------- login / mobile */
 .hc-login-mobile-brand {
   display: none;
