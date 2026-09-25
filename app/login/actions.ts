@@ -3,7 +3,7 @@
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createSessionToken, SESSION_COOKIE } from "@/lib/auth";
-import { verifyAdminCredentials, needsSetup, logAudit, getAdminById } from "@/lib/adminAuth";
+import { verifyAdminCredentials, needsSetup, logAudit, getAdminById, isLoginRateLimited } from "@/lib/adminAuth";
 import { getSession } from "@/lib/session";
 
 export interface LoginState {
@@ -30,8 +30,13 @@ export async function loginAction(_prevState: LoginState, formData: FormData): P
     redirect("/setup");
   }
 
+  if (await isLoginRateLimited(email)) {
+    return { error: "Too many failed attempts. Try again in 15 minutes." };
+  }
+
   const admin = await verifyAdminCredentials(email, password);
   if (!admin) {
+    await logAudit(null, email.toLowerCase(), "login_failed", await requestMeta());
     return { error: "Incorrect email or password." };
   }
 

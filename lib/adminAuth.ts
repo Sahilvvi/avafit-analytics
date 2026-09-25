@@ -2,6 +2,7 @@ import "server-only";
 import bcrypt from "bcryptjs";
 import {
   countAdminUsers,
+  countRecentFailedLogins,
   deleteAdminUser,
   fetchAdminUserByEmail,
   fetchAdminUserById,
@@ -14,6 +15,16 @@ import {
 import type { AdminUser, AuditLogEntry } from "./types";
 
 const SALT_ROUNDS = 10;
+const MAX_FAILED_LOGINS = 5;
+const FAILED_LOGIN_WINDOW_MS = 15 * 60 * 1000;
+
+/** True once an email has racked up too many failed attempts in the last
+ *  FAILED_LOGIN_WINDOW_MS — the caller should refuse to even check the
+ *  password at that point (see app/login/actions.ts). */
+export async function isLoginRateLimited(email: string): Promise<boolean> {
+  const count = await countRecentFailedLogins(email.trim(), Date.now() - FAILED_LOGIN_WINDOW_MS);
+  return count >= MAX_FAILED_LOGINS;
+}
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, SALT_ROUNDS);

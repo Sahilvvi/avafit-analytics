@@ -77,7 +77,7 @@ export interface AuditLogEntry {
   id: string;
   admin_id: string | null;
   admin_email: string;
-  action: "login" | "logout" | "idle_logout" | "hidden_logout";
+  action: "login" | "login_failed" | "logout" | "idle_logout" | "hidden_logout";
   ip: string | null;
   user_agent: string | null;
   created_at: string;

@@ -185,6 +185,21 @@ export async function insertAuditLog(entry: {
   if (error) console.error("insertAuditLog failed:", error.message);
 }
 
+export async function countRecentFailedLogins(email: string, sinceMs: number): Promise<number> {
+  const supabase = getSupabaseAdmin();
+  const { count, error } = await supabase
+    .from("admin_audit_log")
+    .select("*", { count: "exact", head: true })
+    .eq("action", "login_failed")
+    .ilike("admin_email", email)
+    .gte("created_at", new Date(sinceMs).toISOString());
+  if (error) {
+    console.error("countRecentFailedLogins failed:", error.message);
+    return 0;
+  }
+  return count ?? 0;
+}
+
 export async function fetchAuditLog(limit = 20): Promise<AuditLogEntry[]> {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase

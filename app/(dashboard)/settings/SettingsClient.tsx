@@ -8,6 +8,7 @@ import type { AuditLogEntry } from "@/lib/types";
 
 const ACTION_LABEL: Record<AuditLogEntry["action"], string> = {
   login: "Signed in",
+  login_failed: "Failed sign-in attempt",
   logout: "Signed out",
   idle_logout: "Auto signed out · idle",
   hidden_logout: "Auto signed out · tab hidden",
