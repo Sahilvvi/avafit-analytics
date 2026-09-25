@@ -1,9 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { Icon } from "@/components/halcyon/icons";
 import { useDash } from "@/components/halcyon/store";
 import { PageHead, LiveDot, cssVars } from "@/components/halcyon/ui";
+import { AnimatedNumber } from "@/components/halcyon/AnimatedNumber";
 import { Spark, DualLines, Donut } from "@/components/halcyon/charts";
 import { dailySeries, deltaOf, windowStats } from "@/lib/halcyon/derive";
 import { fmtCompact, fmtDur, fmtInt, C } from "@/lib/halcyon/format";
@@ -12,12 +14,18 @@ import type { DSession } from "@/lib/halcyon/types";
 const RANGE_DAYS: Record<string, number> = { "7D": 7, "30D": 30, "90D": 90 };
 const DAY = 864e5;
 
+const cardIn = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0 },
+};
+
 function KpiCard({
   icon,
   iconBg,
   iconFg,
   label,
-  value,
+  rawValue,
+  format,
   sub,
   delta,
   spark,
@@ -29,7 +37,8 @@ function KpiCard({
   iconBg: string;
   iconFg: string;
   label: string;
-  value: string;
+  rawValue: number | null;
+  format: (n: number) => string;
   sub: string;
   delta: { text: string; tone: "up" | "down" | "flat" };
   spark: number[];
@@ -40,7 +49,7 @@ function KpiCard({
   const deltaColor = delta.tone === "up" ? C.green : delta.tone === "down" ? C.rose : "#64748B";
   const deltaBg = delta.tone === "up" ? "rgba(16,185,129,.12)" : delta.tone === "down" ? "rgba(225,29,72,.1)" : "rgba(100,116,139,.12)";
   return (
-    <div className="hc-kpi" style={cssVars({ "--tint-bd": tintBd, "--tint-sh": tintSh })}>
+    <motion.div variants={cardIn} className="hc-kpi" style={cssVars({ "--tint-bd": tintBd, "--tint-sh": tintSh })}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13.5, color: "#5B6577" }}>
           <span style={{ width: 30, height: 30, borderRadius: 9, background: iconBg, color: iconFg, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -52,14 +61,16 @@ function KpiCard({
       </div>
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 12 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <span style={{ fontSize: 34, fontWeight: 600, letterSpacing: "-.03em", fontVariantNumeric: "tabular-nums" }}>{value}</span>
+          <span style={{ fontSize: 34, fontWeight: 600, letterSpacing: "-.03em", fontVariantNumeric: "tabular-nums" }}>
+            {rawValue == null ? "—" : <AnimatedNumber value={rawValue} format={format} />}
+          </span>
           <span style={{ fontSize: 12, color: "#64748B" }}>{sub}</span>
         </div>
         <div style={{ width: 110, height: 40 }}>
           <Spark data={spark} color={sparkColor} />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -167,13 +178,19 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}>
+      <motion.div
+        initial="hidden"
+        animate="show"
+        variants={{ show: { transition: { staggerChildren: 0.08 } } }}
+        style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}
+      >
         <KpiCard
           icon="users"
           iconBg="rgba(67, 52, 220,.12)"
           iconFg={C.cyan}
           label="Active patients"
-          value={fmtInt(cur.patients)}
+          rawValue={cur.patients}
+          format={fmtInt}
           sub="vs prior period"
           delta={deltaOf(cur.patients, prev.patients)}
           spark={series.map((p) => p.patients)}
@@ -186,7 +203,8 @@ export default function OverviewPage() {
           iconBg="rgba(16,185,129,.12)"
           iconFg={C.green}
           label="Sessions logged"
-          value={fmtInt(cur.sessions)}
+          rawValue={cur.sessions}
+          format={fmtInt}
           sub="vs prior period"
           delta={deltaOf(cur.sessions, prev.sessions)}
           spark={series.map((p) => p.sessions)}
@@ -199,7 +217,8 @@ export default function OverviewPage() {
           iconBg="rgba(124,58,237,.14)"
           iconFg={C.violet}
           label="Avg session length"
-          value={cur.avgDurS != null ? fmtDur(cur.avgDurS) : "—"}
+          rawValue={cur.avgDurS ?? null}
+          format={fmtDur}
           sub="mean duration"
           delta={deltaOf(cur.avgDurS ?? 0, prev.avgDurS ?? 0)}
           spark={series.map((p) => p.avgDurS ?? 0)}
@@ -212,7 +231,8 @@ export default function OverviewPage() {
           iconBg="rgba(217,119,6,.12)"
           iconFg={C.amber}
           label="Samples logged"
-          value={fmtCompact(cur.rows)}
+          rawValue={cur.rows}
+          format={fmtCompact}
           sub="pressure + IMU rows"
           delta={deltaOf(cur.rows, prev.rows)}
           spark={series.map((p) => p.rows)}
@@ -220,7 +240,7 @@ export default function OverviewPage() {
           tintBd="rgba(217,119,6,.3)"
           tintSh="rgba(217,119,6,.35)"
         />
-      </div>
+      </motion.div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "stretch" }}>
         <div className="hc-card" style={{ flex: "2 1 600px", minWidth: 0, padding: 24, display: "flex", flexDirection: "column", gap: 18 }}>

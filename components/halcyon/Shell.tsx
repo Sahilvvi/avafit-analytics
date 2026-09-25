@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { Icon, type IconName } from "./icons";
 import { useDash } from "./store";
 import { BRAND, LiveDot, Orb, Watermark, cssVars } from "./ui";
@@ -41,8 +42,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     <div style={{ minHeight: "100vh", background: "#F6F7FB", color: "#0F172A", position: "relative", animation: "hcAppIn .7s cubic-bezier(.2,.8,.2,1) backwards" }}>
       {prefs.glow ? (
         <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden", zIndex: 0 }}>
-          <div style={{ position: "absolute", width: 700, height: 700, left: -200, top: -300, borderRadius: "50%", background: "radial-gradient(circle,rgba(67, 52, 220,.10),transparent 65%)" }} />
-          <div style={{ position: "absolute", width: 600, height: 600, right: -200, top: 200, borderRadius: "50%", background: "radial-gradient(circle,rgba(16,185,129,.07),transparent 65%)" }} />
+          <div className="hc-blob-drift" style={{ position: "absolute", width: 700, height: 700, left: -200, top: -300, borderRadius: "50%", background: "radial-gradient(circle,rgba(67, 52, 220,.10),transparent 65%)", animationDuration: "22s" }} />
+          <div className="hc-blob-drift" style={{ position: "absolute", width: 600, height: 600, right: -200, top: 200, borderRadius: "50%", background: "radial-gradient(circle,rgba(16,185,129,.07),transparent 65%)", animationDuration: "28s", animationDirection: "reverse" }} />
         </div>
       ) : null}
 
@@ -77,24 +78,26 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             WORKSPACE
           </span>
           <nav style={{ position: "relative", display: "flex", flexDirection: "column", gap: 4 }}>
-            <div
+            <motion.div
+              animate={{ top: idx * 46 }}
+              transition={{ type: "spring", stiffness: 420, damping: 34 }}
               style={{
                 position: "absolute",
                 left: 0,
                 right: 0,
-                top: idx * 46,
                 height: 42,
                 borderRadius: 11,
                 background: "linear-gradient(90deg,rgba(67, 52, 220,.14),rgba(15,23,42,0.044))",
                 boxShadow: "inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(67, 52, 220,.18)",
-                transition: "top .45s cubic-bezier(.3,.9,.25,1)",
               }}
             >
               <div style={{ position: "absolute", left: -16, top: 11, width: 3, height: 20, borderRadius: "0 3px 3px 0", background: "#4334DC", boxShadow: "0 0 12px #4334DC" }} />
-            </div>
+            </motion.div>
             {NAV.map((n, i) => (
-              <button
+              <motion.button
                 key={n.href}
+                whileHover={{ x: 2 }}
+                whileTap={{ scale: 0.97 }}
                 className="hc-nav-item"
                 title={n.label}
                 style={cssVars({ "--fg": i === idx ? "#0F172A" : "#5B6577" })}
@@ -104,7 +107,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                   <Icon name={n.icon} />
                 </span>
                 <span style={{ flex: 1, opacity: lblOp, transition: "opacity .25s", textAlign: "left" }}>{n.label}</span>
-              </button>
+              </motion.button>
             ))}
           </nav>
         </div>
@@ -218,7 +221,17 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             transition: ui.hidden ? "none" : "filter .2s ease",
           }}
         >
-          {children}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 

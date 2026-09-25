@@ -258,6 +258,12 @@ textarea,
   font-size: 13px;
   color: var(--hc-ink-4);
 }
+.hc-blob-drift {
+  animation-name: hcDrift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
 .hc-page {
   display: flex;
   flex-direction: column;
