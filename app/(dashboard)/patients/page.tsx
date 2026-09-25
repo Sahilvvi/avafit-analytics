@@ -28,9 +28,9 @@ export default function PatientsPage() {
     const active = model.patients.filter((p) => p.status === "Active").length;
     const idle = model.patients.length - active;
     return [
-      { key: "All", label: "All", count: model.patients.length, dot: "#64748B" },
+      { key: "All", label: "All", count: model.patients.length, dot: "#8C909B" },
       { key: "Active", label: "Active", count: active, dot: C.green },
-      { key: "Idle", label: "Idle", count: idle, dot: "#94A3B8" },
+      { key: "Idle", label: "Idle", count: idle, dot: "#5E626D" },
     ];
   }, [model.patients]);
 
@@ -73,7 +73,7 @@ export default function PatientsPage() {
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
         <div style={{ position: "relative", flex: "1 1 280px", maxWidth: 420 }}>
-          <span style={{ position: "absolute", left: 14, top: 12, color: "#64748B", display: "flex" }}>
+          <span style={{ position: "absolute", left: 14, top: 12, color: "#8C909B", display: "flex" }}>
             <Icon name="search" size={16} />
           </span>
           <input className="hc-search" value={ui.q} onChange={(e) => set({ q: e.target.value, page: 0 })} placeholder="Search name, code or tester" />
@@ -86,7 +86,7 @@ export default function PatientsPage() {
                 key={c.key}
                 onClick={() => set({ pStatus: c.key, page: 0 })}
                 className="hc-chip"
-                style={{ ["--bd" as string]: on ? "rgba(67, 52, 220,.35)" : "rgba(15,23,42,.08)", ["--bg" as string]: on ? "rgba(67, 52, 220,.1)" : "rgba(15,23,42,0.044)", ["--fg" as string]: on ? "#372BC7" : "#334155" }}
+                style={{ ["--bd" as string]: on ? "rgba(128,131,255,.35)" : "rgba(255,255,255,.08)", ["--bg" as string]: on ? "rgba(128,131,255,.1)" : "rgba(255,255,255,0.044)", ["--fg" as string]: on ? "#9A9CFF" : "#C3C6CF" }}
               >
                 <span style={{ width: 6, height: 6, borderRadius: "50%", background: c.dot }} />
                 {c.label}
@@ -100,7 +100,7 @@ export default function PatientsPage() {
       <div className="hc-card" style={{ overflow: "hidden" }}>
         <div style={{ overflowX: "auto" }}>
           <div style={{ minWidth: 900 }}>
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(220px,2.2fr) 90px minmax(140px,1.3fr) 96px 116px 130px 36px", gap: 12, padding: "14px 20px", borderBottom: "1px solid rgba(15,23,42,0.066)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "minmax(220px,2.2fr) 90px minmax(140px,1.3fr) 96px 116px 130px 36px", gap: 12, padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.066)" }}>
               <SortHead cols={COLS} sort={ui.sort} onSort={(s) => set({ sort: s })} />
             </div>
             <div>
@@ -111,21 +111,21 @@ export default function PatientsPage() {
                     key={p.id}
                     onClick={() => set({ expanded: open ? null : p.id })}
                     className="hc-row"
-                    style={{ display: "grid", gridTemplateColumns: "minmax(220px,2.2fr) 90px minmax(140px,1.3fr) 96px 116px 130px 36px", gap: 12, padding: "0 20px", height: prefs.compact ? 52 : 64, alignItems: "center", borderBottom: "1px solid rgba(15,23,42,0.055)", background: open ? "rgba(67, 52, 220,.05)" : undefined }}
+                    style={{ display: "grid", gridTemplateColumns: "minmax(220px,2.2fr) 90px minmax(140px,1.3fr) 96px 116px 130px 36px", gap: 12, padding: "0 20px", height: prefs.compact ? 52 : 64, alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.055)", background: open ? "rgba(128,131,255,.05)" : undefined }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
                       <Avatar hue={p.hue} initials={p.initials} />
                       <span style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
                         <span style={{ fontSize: 14, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.name}</span>
-                        <span style={{ font: "400 11.5px var(--hc-mono)", color: "#64748B" }}>{p.code}</span>
+                        <span style={{ font: "400 11.5px var(--hc-mono)", color: "#8C909B" }}>{p.code}</span>
                       </span>
                     </div>
-                    <span style={{ fontSize: 13.5, color: "#334155", textTransform: "capitalize" }}>{p.side ?? "—"}</span>
-                    <span style={{ fontSize: 13.5, color: "#334155", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.tester}</span>
+                    <span style={{ fontSize: 13.5, color: "#C3C6CF", textTransform: "capitalize" }}>{p.side ?? "—"}</span>
+                    <span style={{ fontSize: 13.5, color: "#C3C6CF", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.tester}</span>
                     <span style={{ font: "500 13px var(--hc-mono)" }}>{p.sessions.length}</span>
-                    <span style={{ font: "500 12.5px var(--hc-mono)", color: "#334155" }}>{fmtDur(p.totalS)}</span>
-                    <span style={{ fontSize: 13, color: "#5B6577" }}>{agoLabel(p.lastMs, nowMs)}</span>
-                    <span style={{ display: "flex", color: "#64748B", transform: open ? "rotate(90deg)" : "none", transition: "transform .3s cubic-bezier(.2,.8,.2,1)" }}>
+                    <span style={{ font: "500 12.5px var(--hc-mono)", color: "#C3C6CF" }}>{fmtDur(p.totalS)}</span>
+                    <span style={{ fontSize: 13, color: "#8C909B" }}>{agoLabel(p.lastMs, nowMs)}</span>
+                    <span style={{ display: "flex", color: "#8C909B", transform: open ? "rotate(90deg)" : "none", transition: "transform .3s cubic-bezier(.2,.8,.2,1)" }}>
                       <Icon name="chevRight" size={16} />
                     </span>
                   </div>
@@ -137,44 +137,44 @@ export default function PatientsPage() {
         </div>
 
         {expanded ? (
-          <div style={{ borderTop: "1px solid rgba(15,23,42,0.066)", padding: "18px 20px 22px", animation: "hcFadeUp .35s cubic-bezier(.2,.8,.2,1) both" }}>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.066)", padding: "18px 20px 22px", animation: "hcFadeUp .35s cubic-bezier(.2,.8,.2,1) both" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
               <Avatar hue={expanded.hue} initials={expanded.initials} size={30} fs={11} />
               <span style={{ fontSize: 14, fontWeight: 500 }}>{expanded.name}</span>
-              <span style={{ font: "400 11.5px var(--hc-mono)", color: "#64748B" }}>{expanded.code}</span>
+              <span style={{ font: "400 11.5px var(--hc-mono)", color: "#8C909B" }}>{expanded.code}</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 16 }}>
-              <div style={{ padding: 16, borderRadius: 14, background: "#F8FAFC", border: "1px solid rgba(15,23,42,0.066)", display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ padding: 16, borderRadius: 14, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.066)", display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span className="hc-eyebrow">SESSION LOG</span>
                   <span style={{ font: "500 11px var(--hc-mono)", color: C.cyan }}>{expanded.sessions[0]?.code ?? "—"}</span>
                 </div>
-                {expanded.sessions[0] ? <Timeline items={sessionLog(expanded.sessions[0])} size="sm" /> : <span style={{ fontSize: 13, color: "#64748B" }}>No sessions yet.</span>}
+                {expanded.sessions[0] ? <Timeline items={sessionLog(expanded.sessions[0])} size="sm" /> : <span style={{ fontSize: 13, color: "#8C909B" }}>No sessions yet.</span>}
               </div>
-              <div style={{ padding: 16, borderRadius: 14, background: "#F8FAFC", border: "1px solid rgba(15,23,42,0.066)", display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ padding: 16, borderRadius: 14, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.066)", display: "flex", flexDirection: "column", gap: 12 }}>
                 <span className="hc-eyebrow">SENSOR PROFILE &amp; NOTES</span>
                 {expandedProfile.length ? expandedProfile.map(([k, v]) => (
                   <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, gap: 8 }}>
-                    <span style={{ color: "#64748B" }}>{k}</span>
-                    <span style={{ color: "#334155", textAlign: "right" }}>{v}</span>
+                    <span style={{ color: "#8C909B" }}>{k}</span>
+                    <span style={{ color: "#C3C6CF", textAlign: "right" }}>{v}</span>
                   </div>
                 )) : null}
                 {expandedNotes.length ? expandedNotes.map((n, i) => (
-                  <div key={i} style={{ display: "flex", flexDirection: "column", gap: 3, borderTop: i === 0 && expandedProfile.length ? "1px solid rgba(15,23,42,0.066)" : undefined, paddingTop: i === 0 && expandedProfile.length ? 8 : 0 }}>
-                    <span style={{ fontSize: 12, color: "#5B6577" }}>{n.by} · {n.when}</span>
-                    <span style={{ fontSize: 13, lineHeight: 1.5, color: "#1E293B" }}>{n.text}</span>
+                  <div key={i} style={{ display: "flex", flexDirection: "column", gap: 3, borderTop: i === 0 && expandedProfile.length ? "1px solid rgba(255,255,255,0.066)" : undefined, paddingTop: i === 0 && expandedProfile.length ? 8 : 0 }}>
+                    <span style={{ fontSize: 12, color: "#8C909B" }}>{n.by} · {n.when}</span>
+                    <span style={{ fontSize: 13, lineHeight: 1.5, color: "#EDEEF2" }}>{n.text}</span>
                   </div>
                 )) : null}
-                {!expandedProfile.length && !expandedNotes.length ? <span style={{ fontSize: 13, color: "#64748B" }}>Nothing recorded yet.</span> : null}
+                {!expandedProfile.length && !expandedNotes.length ? <span style={{ fontSize: 13, color: "#8C909B" }}>Nothing recorded yet.</span> : null}
               </div>
-              <div style={{ padding: 16, borderRadius: 14, background: "#F8FAFC", border: "1px solid rgba(15,23,42,0.066)", display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ padding: 16, borderRadius: 14, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.066)", display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span className="hc-eyebrow">SESSIONS / WEEK</span>
-                  <span style={{ font: "500 11px var(--hc-mono)", color: "#5B6577" }}>10 WK</span>
+                  <span style={{ font: "500 11px var(--hc-mono)", color: "#8C909B" }}>10 WK</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 40 }}>
                   {expandedWeekly.map((v, i) => (
-                    <div key={i} style={{ flex: 1, height: `${Math.max(6, (v / Math.max(1, ...expandedWeekly)) * 100)}%`, borderRadius: "3px 3px 1px 1px", background: v ? C.cyan : "rgba(15,23,42,0.1)" }} />
+                    <div key={i} style={{ flex: 1, height: `${Math.max(6, (v / Math.max(1, ...expandedWeekly)) * 100)}%`, borderRadius: "3px 3px 1px 1px", background: v ? C.cyan : "rgba(255,255,255,0.1)" }} />
                   ))}
                 </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
@@ -185,8 +185,8 @@ export default function PatientsPage() {
                       className="hc-hover-55"
                       style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 8px", margin: "0 -8px", borderRadius: 8, border: 0, background: "transparent", color: "inherit", cursor: "pointer", textAlign: "left" }}
                     >
-                      <span title={s.code} style={{ font: "400 11.5px var(--hc-mono)", color: "#5B6577", width: 78, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.code}</span>
-                      <span style={{ flex: 1, fontSize: 12.5, color: "#334155" }}>{s.device} · {agoLabel(s.startMs, nowMs)}</span>
+                      <span title={s.code} style={{ font: "400 11.5px var(--hc-mono)", color: "#8C909B", width: 78, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.code}</span>
+                      <span style={{ flex: 1, fontSize: 12.5, color: "#C3C6CF" }}>{s.device} · {agoLabel(s.startMs, nowMs)}</span>
                       <span style={{ font: "500 12px var(--hc-mono)" }}>{fmtInt(s.rows)}</span>
                     </button>
                   ))}
@@ -202,8 +202,8 @@ export default function PatientsPage() {
           </div>
         ) : null}
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 20px", borderTop: "1px solid rgba(15,23,42,0.066)", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ fontSize: 13, color: "#64748B", fontVariantNumeric: "tabular-nums" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 20px", borderTop: "1px solid rgba(255,255,255,0.066)", flexWrap: "wrap", gap: 10 }}>
+          <span style={{ fontSize: 13, color: "#8C909B", fontVariantNumeric: "tabular-nums" }}>
             {sorted.length ? `${page * PAGE_SIZE + 1}–${Math.min(sorted.length, (page + 1) * PAGE_SIZE)} of ${sorted.length}` : "0 of 0"}
           </span>
           <div style={{ display: "flex", gap: 4 }}>
@@ -217,7 +217,7 @@ export default function PatientsPage() {
                   key={i}
                   onClick={() => set({ page: i })}
                   className="hc-page-btn"
-                  style={{ ["--bd" as string]: i === page ? "rgba(67, 52, 220,.4)" : "rgba(15,23,42,.08)", ["--bg" as string]: i === page ? "rgba(67, 52, 220,.1)" : "transparent", ["--fg" as string]: i === page ? "#372BC7" : "#334155", font: "500 13px var(--hc-mono)" }}
+                  style={{ ["--bd" as string]: i === page ? "rgba(128,131,255,.4)" : "rgba(255,255,255,.08)", ["--bg" as string]: i === page ? "rgba(128,131,255,.1)" : "transparent", ["--fg" as string]: i === page ? "#9A9CFF" : "#C3C6CF", font: "500 13px var(--hc-mono)" }}
                 >
                   {i + 1}
                 </button>

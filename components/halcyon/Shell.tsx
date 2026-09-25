@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Icon, type IconName } from "./icons";
 import { useDash } from "./store";
 import { BRAND, LiveDot, Orb, Watermark, cssVars } from "./ui";
@@ -19,10 +19,39 @@ const NAV: { href: string; label: string; icon: IconName }[] = [
   { href: "/settings", label: "Settings", icon: "settings" },
 ];
 
+const ITEM_H = 36;
+const ITEM_GAP = 2;
+const EASE = [0.2, 0.8, 0.2, 1] as const;
+
 function activeIndex(pathname: string): number {
   if (pathname === "/") return 0;
   const i = NAV.findIndex((n, k) => k > 0 && pathname.startsWith(n.href));
   return i < 0 ? 0 : i;
+}
+
+/** Tracks the cursor inside whichever glass card it's over and exposes it as
+ *  --mx/--my, which globals.css turns into a soft spotlight. One delegated
+ *  listener for the whole app instead of a handler per card. */
+function useCardSpotlight() {
+  useEffect(() => {
+    let raf = 0;
+    const onMove = (e: PointerEvent) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const el = (e.target as Element | null)?.closest?.(".hc-card, .hc-kpi") as HTMLElement | null;
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        el.style.setProperty("--my", `${e.clientY - r.top}px`);
+      });
+    };
+    document.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      document.removeEventListener("pointermove", onMove);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 }
 
 export default function Shell({ children }: { children: React.ReactNode }) {
@@ -30,17 +59,24 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const idx = activeIndex(pathname);
   const collapsed = !mobile && ui.collapsed;
-  const sw = mobile ? 264 : collapsed ? 76 : 248;
+  const sw = mobile ? 264 : collapsed ? 72 : 240;
   const lblOp = collapsed ? 0 : 1;
   const { unread } = useNotifications();
   const [isMac, setIsMac] = useState(true);
   useEffect(() => setIsMac(/Mac|iPhone|iPad/i.test(navigator.platform)), []);
+  useCardSpotlight();
 
   const flagTip = useMemo(() => `${model.patients.length} patients · ${model.sessions.length} sessions`, [model]);
+  const section = NAV[idx]?.label ?? "Overview";
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F6F7FB", color: "#0F172A", position: "relative", animation: "hcAppIn .7s cubic-bezier(.2,.8,.2,1) backwards" }}>
-      <aside
+    <div style={{ minHeight: "100vh", color: "#EDEEF2", position: "relative" }}>
+      {/* Framer owns this element's transform, so the mobile off-canvas
+          position goes through `animate`, not an inline transform. */}
+      <motion.aside
+        initial={{ opacity: 0, x: mobile ? "-100%" : -12 }}
+        animate={{ opacity: 1, x: mobile && !ui.mobileNav ? "-100%" : 0 }}
+        transition={{ duration: mobile ? 0.35 : 0.5, ease: EASE }}
         style={{
           position: "fixed",
           top: 0,
@@ -48,96 +84,103 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           bottom: 0,
           zIndex: 30,
           width: sw,
-          transform: mobile && !ui.mobileNav ? "translateX(-100%)" : "none",
-          transition: "width .4s cubic-bezier(.3,.9,.25,1),transform .4s cubic-bezier(.3,.9,.25,1)",
+          transition: "width .4s cubic-bezier(.3,.9,.25,1)",
           overflow: "hidden",
           whiteSpace: "nowrap",
-          padding: "22px 16px",
+          padding: "18px 12px 14px",
           display: "flex",
           flexDirection: "column",
-          gap: 28,
-          background: "rgba(255,255,255,.86)",
-          backdropFilter: "saturate(160%) blur(24px)",
-          WebkitBackdropFilter: "saturate(160%) blur(24px)",
-          borderRight: "1px solid rgba(15,23,42,0.066)",
+          gap: 26,
+          background: "linear-gradient(180deg, rgba(14,15,20,.72), rgba(9,10,13,.62))",
+          backdropFilter: "saturate(160%) blur(28px)",
+          WebkitBackdropFilter: "saturate(160%) blur(28px)",
+          borderRight: "1px solid rgba(255,255,255,0.06)",
+          boxShadow: "inset -1px 0 0 rgba(255,255,255,0.02)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 10px" }}>
-          <Orb />
-          <span className="hc-brand" style={{ fontSize: 17, opacity: lblOp, transition: "opacity .25s" }}>{BRAND}</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "2px 8px" }}>
+          <Orb size={28} />
+          <div style={{ display: "flex", alignItems: "center", gap: 8, opacity: lblOp, transition: "opacity .25s" }}>
+            <span className="hc-brand" style={{ fontSize: 15.5 }}>{BRAND}</span>
+            <span style={{ font: "500 10px var(--hc-mono)", letterSpacing: ".08em", color: "#8C909B", padding: "2px 6px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.09)", background: "rgba(255,255,255,0.03)" }}>ADMIN</span>
+          </div>
         </div>
+
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <span className="hc-eyebrow" style={{ color: "#8A94A6", letterSpacing: ".08em", padding: "0 12px", opacity: lblOp, transition: "opacity .25s" }}>
-            WORKSPACE
-          </span>
-          <nav style={{ position: "relative", display: "flex", flexDirection: "column", gap: 4 }}>
+          <span className="hc-eyebrow" style={{ padding: "0 10px", opacity: lblOp, transition: "opacity .25s" }}>Workspace</span>
+          <nav style={{ position: "relative", display: "flex", flexDirection: "column", gap: ITEM_GAP }}>
             <motion.div
-              animate={{ top: idx * 46 }}
-              transition={{ type: "spring", stiffness: 420, damping: 34 }}
+              initial={false}
+              animate={{ top: idx * (ITEM_H + ITEM_GAP) }}
+              transition={{ type: "spring", stiffness: 480, damping: 38 }}
               style={{
                 position: "absolute",
                 left: 0,
                 right: 0,
-                height: 42,
-                borderRadius: 11,
-                background: "linear-gradient(90deg,rgba(67, 52, 220,.14),rgba(15,23,42,0.044))",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,.7),inset 0 0 0 1px rgba(67, 52, 220,.18)",
+                height: ITEM_H,
+                borderRadius: 9,
+                background: "linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.035))",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.07), inset 0 0 0 1px rgba(255,255,255,0.06), 0 6px 16px -8px rgba(0,0,0,0.6)",
               }}
             >
-              <div style={{ position: "absolute", left: -16, top: 11, width: 3, height: 20, borderRadius: "0 3px 3px 0", background: "#4334DC", boxShadow: "0 0 12px #4334DC" }} />
+              <div style={{ position: "absolute", left: -12, top: 10, width: 2, height: 16, borderRadius: "0 2px 2px 0", background: "#8083FF", boxShadow: "0 0 10px rgba(128,131,255,.8)" }} />
             </motion.div>
-            {NAV.map((n, i) => (
-              <motion.button
-                key={n.href}
-                whileHover={{ x: 2 }}
-                whileTap={{ scale: 0.97 }}
-                className="hc-nav-item"
-                title={n.label}
-                style={cssVars({ "--fg": i === idx ? "#0F172A" : "#5B6577" })}
-                onClick={() => go(n.href)}
-              >
-                <span style={{ display: "flex", flex: "none", color: i === idx ? "#4334DC" : "#64748B", transition: "color .25s" }}>
-                  <Icon name={n.icon} />
-                </span>
-                <span style={{ flex: 1, opacity: lblOp, transition: "opacity .25s", textAlign: "left" }}>{n.label}</span>
-              </motion.button>
-            ))}
+            {NAV.map((n, i) => {
+              const on = i === idx;
+              return (
+                <motion.button
+                  key={n.href}
+                  whileTap={{ scale: 0.98 }}
+                  className="hc-nav-item"
+                  title={n.label}
+                  style={cssVars({ "--fg": on ? "#EDEEF2" : "#8C909B" })}
+                  onClick={() => go(n.href)}
+                >
+                  <span style={{ display: "flex", flex: "none", color: on ? "#B4B6FF" : "#6B6F7B", transition: "color .25s" }}>
+                    <Icon name={n.icon} size={17} />
+                  </span>
+                  <span style={{ flex: 1, opacity: lblOp, transition: "opacity .25s", textAlign: "left" }}>{n.label}</span>
+                </motion.button>
+              );
+            })}
           </nav>
         </div>
-        <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 12 }}>
+
+        <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 10 }}>
           <button
             onClick={() => (mobile ? set({ mobileNav: false }) : set({ collapsed: !ui.collapsed }))}
-            className="hc-btn"
-            style={{ height: 40, border: 0, background: "transparent", color: "#64748B", font: "500 13.5px var(--hc-sans)", padding: "0 12px", gap: 12 }}
+            className="hc-nav-item"
+            style={cssVars({ "--fg": "#6B6F7B" })}
           >
             <span style={{ display: "flex", flex: "none", transform: collapsed ? "rotate(180deg)" : "none", transition: "transform .4s cubic-bezier(.3,.9,.25,1)" }}>
-              <Icon name="collapse" />
+              <Icon name="collapse" size={17} />
             </span>
             <span style={{ opacity: lblOp, transition: "opacity .25s" }}>{collapsed ? "Expand" : "Collapse"}</span>
           </button>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 6px 0", borderTop: "1px solid rgba(15,23,42,0.066)" }}>
+          <div className="hc-hairline" />
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "4px 4px 0" }}>
             <div
               title={flagTip}
-              style={{ width: 36, height: 36, flex: "none", borderRadius: "50%", background: "linear-gradient(135deg,#E2E8F0,#CBD5E1)", border: "1px solid rgba(15,23,42,0.110)", display: "flex", alignItems: "center", justifyContent: "center", font: "600 12px var(--hc-sans)" }}
+              style={{ width: 32, height: 32, flex: "none", borderRadius: 9, background: "linear-gradient(135deg,#34364A,#1B1C24)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", font: "600 11.5px var(--hc-sans)", color: "#EDEEF2" }}
             >
               {initialsOf(admin.name)}
             </div>
-            <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", lineHeight: 1.25, opacity: lblOp, transition: "opacity .25s" }}>
-              <span style={{ fontSize: 13.5, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis" }}>{admin.name}</span>
-              <span style={{ fontSize: 12, color: "#64748B", overflow: "hidden", textOverflow: "ellipsis" }}>{admin.email}</span>
+            <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", lineHeight: 1.3, opacity: lblOp, transition: "opacity .25s" }}>
+              <span style={{ fontSize: 13, fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis" }}>{admin.name}</span>
+              <span style={{ fontSize: 11.5, color: "#6B6F7B", overflow: "hidden", textOverflow: "ellipsis" }}>{admin.email}</span>
             </div>
             <button
               onClick={signOut}
               aria-label="Sign out"
               title="Sign out"
               className="hc-iconbtn"
-              style={{ width: 32, height: 32, borderRadius: 9, background: "transparent", color: "#64748B", opacity: lblOp }}
+              style={{ width: 30, height: 30, border: 0, background: "transparent", color: "#6B6F7B", opacity: lblOp }}
             >
-              <Icon name="logout" size={16} />
+              <Icon name="logout" size={15} />
             </button>
           </div>
         </div>
-      </aside>
+      </motion.aside>
 
       <div style={{ marginLeft: mobile ? 0 : sw, minWidth: 0, transition: "margin-left .4s cubic-bezier(.3,.9,.25,1)" }}>
         <header
@@ -145,21 +188,29 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             position: "sticky",
             top: 0,
             zIndex: 20,
-            background: "rgba(246,247,251,.78)",
-            backdropFilter: "saturate(160%) blur(20px)",
-            WebkitBackdropFilter: "saturate(160%) blur(20px)",
-            borderBottom: "1px solid rgba(15,23,42,0.066)",
+            background: "linear-gradient(180deg, rgba(8,9,12,.78), rgba(8,9,12,.52))",
+            backdropFilter: "saturate(160%) blur(22px)",
+            WebkitBackdropFilter: "saturate(160%) blur(22px)",
           }}
         >
-          <div style={{ maxWidth: 1440, margin: "0 auto", padding: "12px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "11px 28px", display: "flex", alignItems: "center", gap: 14 }}>
             {mobile ? (
-              <button className="hc-glass" onClick={() => set({ mobileNav: true })} aria-label="Menu" style={{ width: 36, height: 36, flex: "none", borderRadius: 10, color: "#334155", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Icon name="menu" size={17} />
+              <button className="hc-iconbtn" onClick={() => set({ mobileNav: true })} aria-label="Menu">
+                <Icon name="menu" size={16} />
               </button>
-            ) : null}
-            <div style={{ position: "relative", flex: "0 1 360px", minWidth: 0 }}>
-              <span style={{ position: "absolute", left: 12, top: 10, color: "#64748B", display: "flex" }}>
-                <Icon name="search" size={16} sw={2} />
+            ) : (
+              <div style={{ display: "flex", alignItems: "center", gap: 8, font: "500 13px var(--hc-sans)", color: "#6B6F7B", whiteSpace: "nowrap" }}>
+                <span>AVA Fit</span>
+                <span style={{ color: "#3A3D47" }}>/</span>
+                <motion.span key={section} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: EASE }} style={{ color: "#EDEEF2" }}>
+                  {section}
+                </motion.span>
+              </div>
+            )}
+            <div style={{ flex: 1 }} />
+            <div style={{ position: "relative", flex: "0 1 320px", minWidth: 0 }}>
+              <span style={{ position: "absolute", left: 11, top: 9, color: "#6B6F7B", display: "flex" }}>
+                <Icon name="search" size={15} sw={2} />
               </span>
               <input
                 className="hc-search-head"
@@ -174,64 +225,56 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                 <button
                   onClick={() => set({ palette: true, pq: "", pi: 0 })}
                   title="Command palette"
-                  style={{ position: "absolute", right: 6, top: 6, height: 24, font: "500 11px var(--hc-mono)", color: "#5B6577", padding: "0 7px", border: "1px solid rgba(15,23,42,0.132)", borderRadius: 6, background: "rgba(15,23,42,0.044)", cursor: "pointer" }}
+                  style={{ position: "absolute", right: 6, top: 6, height: 22, font: "500 10.5px var(--hc-mono)", color: "#8C909B", padding: "0 6px", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 5, background: "rgba(255,255,255,0.04)", boxShadow: "inset 0 -1px 0 rgba(0,0,0,0.4)", cursor: "pointer" }}
                 >
                   {isMac ? "⌘K" : "Ctrl K"}
                 </button>
               )}
             </div>
-            <div style={{ flex: 1 }} />
             <button
               onClick={() => set({ paused: !ui.paused })}
               title={ui.paused ? "Auto-refresh paused — click to resume" : "Auto-refresh every 15s — click to pause"}
-              style={{ display: "flex", alignItems: "center", gap: 8, font: "500 12px var(--hc-mono)", color: "#64748B", background: "none", border: 0, cursor: "pointer", padding: 0 }}
+              style={{ display: "flex", alignItems: "center", gap: 7, height: 30, padding: "0 10px", borderRadius: 999, font: "500 10.5px var(--hc-mono)", letterSpacing: ".08em", color: ui.paused ? "#8C909B" : "#7FE0B4", background: ui.paused ? "rgba(255,255,255,0.04)" : "rgba(62,207,142,0.08)", border: `1px solid ${ui.paused ? "rgba(255,255,255,0.08)" : "rgba(62,207,142,0.22)"}`, cursor: "pointer" }}
             >
-              {ui.paused ? <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#94A3B8" }} /> : <LiveDot />}
+              {ui.paused ? <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#5E626D" }} /> : <LiveDot size={6} />}
               {ui.paused ? "PAUSED" : "LIVE"}
             </button>
-            <button
-              className="hc-glass"
-              onClick={() => set({ notifOpen: !ui.notifOpen })}
-              aria-label="Notifications"
-              style={{ position: "relative", width: 36, height: 36, borderRadius: 10, color: "#334155", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all .2s" }}
-            >
-              <Icon name="bell" size={17} />
+            <button className="hc-iconbtn" onClick={() => set({ notifOpen: !ui.notifOpen })} aria-label="Notifications" style={{ position: "relative" }}>
+              <Icon name="bell" size={16} />
               {ready && unread > 0 ? (
-                <span style={{ position: "absolute", top: 7, right: 8, width: 8, height: 8, borderRadius: "50%", background: "#E11D48", boxShadow: "0 0 0 2px #F6F7FB,0 0 10px #E11D48" }} />
+                <span style={{ position: "absolute", top: 7, right: 7, width: 7, height: 7, borderRadius: "50%", background: "#F4606C", boxShadow: "0 0 0 2px #0B0C10" }} />
               ) : null}
             </button>
           </div>
+          <div className="hc-hairline" />
         </header>
 
         <main
           style={{
             position: "relative",
             zIndex: 1,
-            maxWidth: 1440,
+            maxWidth: 1400,
             margin: "0 auto",
-            padding: mobile ? "20px 16px 64px" : "32px 28px 64px",
+            padding: mobile ? "20px 16px 64px" : "30px 28px 72px",
             filter: ui.hidden ? "blur(20px)" : "none",
             transition: ui.hidden ? "none" : "filter .2s ease",
           }}
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={pathname}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 8, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)", transitionEnd: { filter: "none" } }}
+            transition={{ duration: 0.45, ease: EASE }}
+          >
+            {children}
+          </motion.div>
         </main>
       </div>
 
       <Watermark />
 
       {mobile && ui.mobileNav ? (
-        <div onClick={() => set({ mobileNav: false })} style={{ position: "fixed", inset: 0, zIndex: 29, background: "rgba(15,23,42,.28)", backdropFilter: "blur(3px)", animation: "hcFadeIn .25s both" }} />
+        <div onClick={() => set({ mobileNav: false })} style={{ position: "fixed", inset: 0, zIndex: 29, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)", animation: "hcFadeIn .25s both" }} />
       ) : null}
 
       <Drawer />

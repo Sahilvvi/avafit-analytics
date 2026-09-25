@@ -42,7 +42,7 @@ export default function ProfileForm() {
           <input value={admin.role} disabled className="hc-input" style={{ opacity: 0.6, cursor: "not-allowed" }} />
         </label>
       </div>
-      {state.error ? <p style={{ margin: 0, fontSize: 13, color: "#E11D48" }}>{state.error}</p> : null}
+      {state.error ? <p style={{ margin: 0, fontSize: 13, color: "#F4606C" }}>{state.error}</p> : null}
       <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
         <SaveButton />
       </div>

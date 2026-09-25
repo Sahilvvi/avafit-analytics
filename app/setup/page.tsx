@@ -19,14 +19,14 @@ export default async function SetupPage() {
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
           <Orb />
           <span className="hc-brand" style={{ fontSize: 17 }}>{BRAND}</span>
-          <span style={{ font: "500 11px var(--hc-mono)", color: "#64748B", marginLeft: 4, padding: "3px 7px", border: "1px solid rgba(15,23,42,0.11)", borderRadius: 6 }}>{BRAND_TAG}</span>
+          <span style={{ font: "500 11px var(--hc-mono)", color: "#8C909B", marginLeft: 4, padding: "3px 7px", border: "1px solid rgba(255,255,255,0.11)", borderRadius: 6 }}>{BRAND_TAG}</span>
         </div>
 
         <p className="hc-eyebrow" style={{ marginBottom: 8, color: "var(--hc-cyan)" }}>
           First-time setup
         </p>
         <h1 style={{ margin: 0, fontSize: 26, fontWeight: 600, letterSpacing: "-.02em" }}>Create the first admin account</h1>
-        <p style={{ marginTop: 8, fontSize: 14, color: "#5B6577", lineHeight: 1.5 }}>
+        <p style={{ marginTop: 8, fontSize: 14, color: "#8C909B", lineHeight: 1.5 }}>
           No one has signed in to this dashboard yet. Create your account to get started — you can add teammates afterwards from Settings.
         </p>
 
@@ -34,7 +34,7 @@ export default async function SetupPage() {
           <SetupForm />
         </div>
 
-        <div style={{ marginTop: 28, display: "flex", alignItems: "flex-start", gap: 10, borderRadius: 12, border: "1px solid rgba(15,23,42,0.08)", background: "#FFFFFF", padding: 14, fontSize: 12, lineHeight: 1.5, color: "#64748B" }}>
+        <div style={{ marginTop: 28, display: "flex", alignItems: "flex-start", gap: 10, borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", padding: 14, fontSize: 12, lineHeight: 1.5, color: "#8C909B" }}>
           <ShieldCheck size={15} style={{ marginTop: 1, flex: "none", color: "var(--hc-cyan)" }} />
           <span>This page disables itself the moment an account exists — it will redirect to sign-in after this.</span>
         </div>

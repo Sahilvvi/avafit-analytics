@@ -22,11 +22,11 @@ export default function TestersPage() {
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <span style={{ position: "relative" }}>
                   <Avatar hue={t.hue} initials={t.initials} size={46} fs={14} />
-                  {live ? <span style={{ position: "absolute", right: 0, bottom: 0, width: 12, height: 12, borderRadius: "50%", background: C.green, boxShadow: "0 0 0 3px #FFFFFF,0 0 10px #10B981" }} /> : null}
+                  {live ? <span style={{ position: "absolute", right: 0, bottom: 0, width: 12, height: 12, borderRadius: "50%", background: C.green, boxShadow: "0 0 0 3px #0E0F13,0 0 10px #3ECF8E" }} /> : null}
                 </span>
                 <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
                   <span style={{ fontSize: 15.5, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.name}</span>
-                  <span style={{ fontSize: 12.5, color: "#64748B", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.email || "No email on file"}</span>
+                  <span style={{ fontSize: 12.5, color: "#8C909B", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.email || "No email on file"}</span>
                 </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4,minmax(0,1fr))", gap: 8 }}>
@@ -41,11 +41,11 @@ export default function TestersPage() {
                   {recent.map((s) => (
                     <div key={s.id} title={`${s.code} · ${fmtDur(s.durS)}`} style={{ flex: 1, height: `${Math.max(6, ((s.durS ?? 0) / maxDur) * 100)}%`, borderRadius: "4px 4px 2px 2px", background: C.cyan, opacity: 0.85 }} />
                   ))}
-                  {recent.length === 0 ? <span style={{ fontSize: 12.5, color: "#94A3B8" }}>No sessions yet</span> : null}
+                  {recent.length === 0 ? <span style={{ fontSize: 12.5, color: "#5E626D" }}>No sessions yet</span> : null}
                 </div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                <span style={{ height: 28, padding: "0 10px", borderRadius: 999, display: "flex", alignItems: "center", fontSize: 12.5, color: t.verified ? C.green : C.amber, background: t.verified ? "rgba(16,185,129,.12)" : "rgba(217,119,6,.12)" }}>
+                <span style={{ height: 28, padding: "0 10px", borderRadius: 999, display: "flex", alignItems: "center", fontSize: 12.5, color: t.verified ? C.green : C.amber, background: t.verified ? "rgba(62,207,142,.12)" : "rgba(245,181,68,.12)" }}>
                   {t.verified ? "Verified" : "Unverified"}
                 </span>
                 <div style={{ flex: 1 }} />
@@ -63,7 +63,7 @@ export default function TestersPage() {
             </div>
           );
         })}
-        {model.testers.length === 0 ? <div className="hc-card" style={{ padding: 60, textAlign: "center", color: "#64748B" }}>No testers have signed up yet.</div> : null}
+        {model.testers.length === 0 ? <div className="hc-card" style={{ padding: 60, textAlign: "center", color: "#8C909B" }}>No testers have signed up yet.</div> : null}
       </div>
     </div>
   );
@@ -72,7 +72,7 @@ export default function TestersPage() {
 function MiniStat({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <span style={{ fontSize: 11.5, color: "#64748B" }}>{label}</span>
+      <span style={{ fontSize: 11.5, color: "#8C909B" }}>{label}</span>
       <span style={{ fontSize: 18, fontWeight: 600, color: color ?? "inherit" }}>{value}</span>
     </div>
   );

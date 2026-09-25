@@ -85,17 +85,17 @@ export default function AnalyticsPage() {
                 <div key={name} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13.5 }}>
                     <span>
-                      {name} <span style={{ color: "#64748B", fontSize: 12 }}>· {n} patients</span>
+                      {name} <span style={{ color: "#8C909B", fontSize: 12 }}>· {n} patients</span>
                     </span>
-                    <span style={{ font: "500 12.5px var(--hc-mono)", color: "#5B6577" }}>{pct}%</span>
+                    <span style={{ font: "500 12.5px var(--hc-mono)", color: "#8C909B" }}>{pct}%</span>
                   </div>
-                  <div style={{ height: 10, borderRadius: 5, background: "rgba(15,23,42,0.055)", overflow: "hidden" }}>
-                    <div style={{ height: "100%", width: `${pct}%`, borderRadius: 5, background: `linear-gradient(90deg,rgba(67, 52, 220,.5),${C.cyan})`, boxShadow: "0 0 14px rgba(67, 52, 220,.5)", transition: "width .8s cubic-bezier(.2,.8,.2,1)" }} />
+                  <div style={{ height: 10, borderRadius: 5, background: "rgba(255,255,255,0.055)", overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${pct}%`, borderRadius: 5, background: `linear-gradient(90deg,rgba(128,131,255,.5),${C.cyan})`, boxShadow: "0 0 14px rgba(128,131,255,.5)", transition: "width .8s cubic-bezier(.2,.8,.2,1)" }} />
                   </div>
                 </div>
               );
             })}
-            {mappingDist.length === 0 ? <span style={{ fontSize: 13, color: "#64748B" }}>No patient profiles yet.</span> : null}
+            {mappingDist.length === 0 ? <span style={{ fontSize: 13, color: "#8C909B" }}>No patient profiles yet.</span> : null}
           </div>
         </div>
         <div className="hc-card" style={{ flex: "1 1 380px", minWidth: 0, padding: 24, display: "flex", flexDirection: "column", gap: 20 }}>
@@ -103,17 +103,17 @@ export default function AnalyticsPage() {
             <h3 className="hc-h3">Session-length distribution</h3>
             <span className="hc-sub">All sessions with a known duration</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6,minmax(0,1fr))", gap: 10, alignItems: "end", height: 190, borderBottom: "1px solid rgba(15,23,42,0.066)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(6,minmax(0,1fr))", gap: 10, alignItems: "end", height: 190, borderBottom: "1px solid rgba(255,255,255,0.066)" }}>
             {hist.map((n, i) => (
               <div key={i} style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", gap: 6 }}>
-                <span style={{ font: "500 11.5px var(--hc-mono)", color: "#5B6577" }}>{n}</span>
-                <div style={{ width: "100%", height: `${Math.max(4, (n / maxHist) * 100)}%`, borderRadius: "8px 8px 3px 3px", background: n ? C.cyan : "rgba(15,23,42,.08)", transition: "height .7s cubic-bezier(.2,.8,.2,1)" }} />
+                <span style={{ font: "500 11.5px var(--hc-mono)", color: "#8C909B" }}>{n}</span>
+                <div style={{ width: "100%", height: `${Math.max(4, (n / maxHist) * 100)}%`, borderRadius: "8px 8px 3px 3px", background: n ? C.cyan : "rgba(255,255,255,.08)", transition: "height .7s cubic-bezier(.2,.8,.2,1)" }} />
               </div>
             ))}
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(6,minmax(0,1fr))", gap: 10, marginTop: -10 }}>
             {DUR_BUCKETS.map((b) => (
-              <span key={b.label} style={{ textAlign: "center", font: "400 11px var(--hc-mono)", color: "#64748B" }}>
+              <span key={b.label} style={{ textAlign: "center", font: "400 11px var(--hc-mono)", color: "#8C909B" }}>
                 {b.label}
               </span>
             ))}
@@ -134,11 +134,11 @@ export default function AnalyticsPage() {
               <div
                 key={h}
                 title={`${h}:00 · ${n} session${n === 1 ? "" : "s"}`}
-                style={{ height: `${Math.max(3, (n / maxHourly) * 100)}%`, borderRadius: "4px 4px 2px 2px", background: n ? C.cyan : "rgba(15,23,42,.08)", boxShadow: n ? "0 0 10px -2px rgba(67, 52, 220,.5)" : "none", transition: "transform .25s,filter .25s" }}
+                style={{ height: `${Math.max(3, (n / maxHourly) * 100)}%`, borderRadius: "4px 4px 2px 2px", background: n ? C.cyan : "rgba(255,255,255,.08)", boxShadow: n ? "0 0 10px -2px rgba(128,131,255,.5)" : "none", transition: "transform .25s,filter .25s" }}
               />
             ))}
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", font: "400 11px var(--hc-mono)", color: "#64748B", marginTop: -10 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", font: "400 11px var(--hc-mono)", color: "#8C909B", marginTop: -10 }}>
             <span>00</span>
             <span>06</span>
             <span>12</span>
@@ -158,15 +158,15 @@ export default function AnalyticsPage() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {gridDist.map(([label, n], i) => (
-              <div key={label} style={{ display: "flex", flexDirection: "column", gap: 4, padding: 12, borderRadius: 12, background: "rgba(15,23,42,0.033)" }}>
-                <span style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "#5B6577" }}>
+              <div key={label} style={{ display: "flex", flexDirection: "column", gap: 4, padding: 12, borderRadius: 12, background: "rgba(255,255,255,0.033)" }}>
+                <span style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "#8C909B" }}>
                   <span style={{ width: 8, height: 8, borderRadius: 2, background: gridColors[i % gridColors.length] }} />
                   {label}
                 </span>
                 <span style={{ fontSize: 20, fontWeight: 600 }}>{model.patients.length ? Math.round((n / model.patients.length) * 100) : 0}%</span>
               </div>
             ))}
-            {gridDist.length === 0 ? <span style={{ fontSize: 13, color: "#64748B" }}>No grid sizes recorded.</span> : null}
+            {gridDist.length === 0 ? <span style={{ fontSize: 13, color: "#8C909B" }}>No grid sizes recorded.</span> : null}
           </div>
         </div>
       </div>
@@ -198,9 +198,9 @@ export default function AnalyticsPage() {
 function StatTile({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
     <div className="hc-tile hc-tile-lift" style={{ padding: "18px 20px" }}>
-      <span style={{ fontSize: 13, color: "#5B6577" }}>{label}</span>
+      <span style={{ fontSize: 13, color: "#8C909B" }}>{label}</span>
       <span style={{ fontSize: 28, fontWeight: 600, letterSpacing: "-.03em", fontVariantNumeric: "tabular-nums" }}>{value}</span>
-      <span style={{ fontSize: 12, color: "#64748B" }}>{sub}</span>
+      <span style={{ fontSize: 12, color: "#8C909B" }}>{sub}</span>
     </div>
   );
 }

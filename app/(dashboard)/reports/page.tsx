@@ -92,20 +92,20 @@ export default function ReportsPage() {
               <button
                 key={r.key}
                 onClick={() => set({ report: r.key })}
-                style={{ display: "flex", flexDirection: "column", gap: 6, padding: "16px 18px", borderRadius: 16, border: `1px solid ${on ? "rgba(15,23,42,0.14)" : "rgba(15,23,42,0.08)"}`, background: on ? "rgba(67, 52, 220,.06)" : "rgba(15,23,42,0.039)", color: "#0F172A", textAlign: "left", cursor: "pointer", transition: "all .3s cubic-bezier(.2,.8,.2,1)" }}
+                style={{ display: "flex", flexDirection: "column", gap: 6, padding: "16px 18px", borderRadius: 16, border: `1px solid ${on ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.08)"}`, background: on ? "rgba(128,131,255,.06)" : "rgba(255,255,255,0.039)", color: "#EDEEF2", textAlign: "left", cursor: "pointer", transition: "all .3s cubic-bezier(.2,.8,.2,1)" }}
               >
                 <span style={{ display: "flex", justifyContent: "space-between", gap: 10, font: "600 14.5px var(--hc-sans)" }}>
                   {r.title}
-                  <span style={{ font: "500 11px var(--hc-mono)", color: "#64748B", whiteSpace: "nowrap" }}>{r.rows(model).length}</span>
+                  <span style={{ font: "500 11px var(--hc-mono)", color: "#8C909B", whiteSpace: "nowrap" }}>{r.rows(model).length}</span>
                 </span>
-                <span style={{ font: "400 13px var(--hc-sans)", color: "#5B6577" }}>{r.desc}</span>
+                <span style={{ font: "400 13px var(--hc-sans)", color: "#8C909B" }}>{r.desc}</span>
               </button>
             );
           })}
         </div>
 
         <div className="hc-card" style={{ flex: "2.4 1 560px", minWidth: 0, overflow: "hidden" }}>
-          <div style={{ padding: "22px 24px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, flexWrap: "wrap", borderBottom: "1px solid rgba(15,23,42,0.066)" }}>
+          <div style={{ padding: "22px 24px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, flexWrap: "wrap", borderBottom: "1px solid rgba(255,255,255,0.066)" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <h3 style={{ margin: 0, fontSize: 19, fontWeight: 600, letterSpacing: "-.01em" }}>{active.title}</h3>
               <span className="hc-sub">{active.desc}</span>
@@ -113,13 +113,13 @@ export default function ReportsPage() {
           </div>
           <div style={{ overflowX: "auto" }}>
             <div style={{ minWidth: 620 }}>
-              <div style={{ display: "grid", gridTemplateColumns: active.grid, gap: 12, padding: "12px 24px", borderBottom: "1px solid rgba(15,23,42,0.066)" }} className="hc-eyebrow">
+              <div style={{ display: "grid", gridTemplateColumns: active.grid, gap: 12, padding: "12px 24px", borderBottom: "1px solid rgba(255,255,255,0.066)" }} className="hc-eyebrow">
                 {active.cols.map((c) => (
                   <span key={c}>{c}</span>
                 ))}
               </div>
               {rows.map((r, i) => (
-                <div key={i} style={{ display: "grid", gridTemplateColumns: active.grid, gap: 12, padding: "14px 24px", borderBottom: "1px solid rgba(15,23,42,0.055)", fontSize: 13.5, color: "#334155" }}>
+                <div key={i} style={{ display: "grid", gridTemplateColumns: active.grid, gap: 12, padding: "14px 24px", borderBottom: "1px solid rgba(255,255,255,0.055)", fontSize: 13.5, color: "#C3C6CF" }}>
                   {r.map((c, j) => (
                     <span key={j} style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {String(c)}

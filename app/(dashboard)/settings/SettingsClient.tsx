@@ -30,20 +30,20 @@ export default function SettingsPage({ auditLog }: { auditLog: AuditLogEntry[] }
                   width: 60,
                   height: 60,
                   borderRadius: "50%",
-                  background: "linear-gradient(135deg,#E2E8F0,#CBD5E1)",
-                  border: "1px solid rgba(15,23,42,0.132)",
+                  background: "linear-gradient(135deg,#2A2C35,#1B1C22)",
+                  border: "1px solid rgba(255,255,255,0.132)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   font: "600 18px var(--hc-sans)",
-                  boxShadow: "0 0 30px -6px rgba(67, 52, 220,.4)",
+                  boxShadow: "0 0 30px -6px rgba(128,131,255,.4)",
                 }}
               >
                 {admin.name.slice(0, 1).toUpperCase()}
               </span>
               <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
                 <span style={{ fontSize: 18, fontWeight: 600 }}>{admin.name}</span>
-                <span style={{ fontSize: 13, color: "#5B6577", textTransform: "capitalize" }}>{admin.role} · AVA Fit Admin</span>
+                <span style={{ fontSize: 13, color: "#8C909B", textTransform: "capitalize" }}>{admin.role} · AVA Fit Admin</span>
               </div>
             </div>
             <ProfileForm />
@@ -85,15 +85,15 @@ export default function SettingsPage({ auditLog }: { auditLog: AuditLogEntry[] }
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
               {auditLog.length === 0 ? (
-                <span style={{ fontSize: 13, color: "#64748B" }}>Nothing logged yet.</span>
+                <span style={{ fontSize: 13, color: "#8C909B" }}>Nothing logged yet.</span>
               ) : (
                 auditLog.map((e) => (
-                  <div key={e.id} style={{ display: "flex", justifyContent: "space-between", gap: 10, padding: "9px 0", borderBottom: "1px solid rgba(15,23,42,0.055)" }}>
+                  <div key={e.id} style={{ display: "flex", justifyContent: "space-between", gap: 10, padding: "9px 0", borderBottom: "1px solid rgba(255,255,255,0.055)" }}>
                     <span style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
                       <span style={{ fontSize: 13, fontWeight: 500 }}>{ACTION_LABEL[e.action]}</span>
-                      <span style={{ fontSize: 12, color: "#64748B", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.admin_email}{e.ip ? ` · ${e.ip}` : ""}</span>
+                      <span style={{ fontSize: 12, color: "#8C909B", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.admin_email}{e.ip ? ` · ${e.ip}` : ""}</span>
                     </span>
-                    <span style={{ fontSize: 12, color: "#64748B", whiteSpace: "nowrap" }}>{new Date(e.created_at).toLocaleString()}</span>
+                    <span style={{ fontSize: 12, color: "#8C909B", whiteSpace: "nowrap" }}>{new Date(e.created_at).toLocaleString()}</span>
                   </div>
                 ))
               )}
@@ -109,13 +109,13 @@ function PrefRow({ label, desc, on, onToggle }: { label: string; desc: string; o
   return (
     <button
       onClick={onToggle}
-      style={{ width: "100%", display: "flex", alignItems: "center", gap: 14, padding: "14px 12px", border: 0, borderRadius: 12, background: "transparent", color: "#0F172A", textAlign: "left", cursor: "pointer", transition: "background .2s" }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(15,23,42,0.044)")}
+      style={{ width: "100%", display: "flex", alignItems: "center", gap: 14, padding: "14px 12px", border: 0, borderRadius: 12, background: "transparent", color: "#EDEEF2", textAlign: "left", cursor: "pointer", transition: "background .2s" }}
+      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.044)")}
       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
     >
       <span style={{ flex: 1, display: "flex", flexDirection: "column", gap: 3 }}>
         <span style={{ font: "500 14px var(--hc-sans)" }}>{label}</span>
-        <span style={{ font: "400 12.5px var(--hc-sans)", color: "#64748B" }}>{desc}</span>
+        <span style={{ font: "400 12.5px var(--hc-sans)", color: "#8C909B" }}>{desc}</span>
       </span>
       <Toggle on={on} />
     </button>

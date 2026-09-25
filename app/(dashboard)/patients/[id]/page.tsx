@@ -38,14 +38,14 @@ export default function PatientDetailPage() {
       </button>
 
       <div className="hc-card" style={{ padding: 24, display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", position: "relative", overflow: "hidden" }}>
-        <div className="hc-mesh-a" style={{ width: 360, height: 360, right: -120, top: -200, background: "radial-gradient(circle,rgba(67, 52, 220,.12),transparent 65%)" }} />
+        <div className="hc-mesh-a" style={{ width: 360, height: 360, right: -120, top: -200, background: "radial-gradient(circle,rgba(128,131,255,.12),transparent 65%)" }} />
         <Avatar hue={patient.hue} initials={patient.initials} size={72} fs={22} />
         <div style={{ flex: "1 1 260px", display: "flex", flexDirection: "column", gap: 8, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <h1 style={{ margin: 0, fontSize: 28, fontWeight: 600, letterSpacing: "-.03em" }}>{patient.name}</h1>
             <StatusPill status={patient.status} title={STATUS_HINT[patient.status]} />
           </div>
-          <span style={{ fontSize: 14, color: "#5B6577" }}>
+          <span style={{ fontSize: 14, color: "#8C909B" }}>
             <span className="hc-mono">{patient.code}</span>
             {patient.side ? ` · ${patient.side}` : ""} · Tester {patient.tester}
           </span>
@@ -68,10 +68,10 @@ export default function PatientDetailPage() {
             </div>
             <div style={{ height: 96, display: "flex", alignItems: "flex-end", gap: 4 }}>
               {wk.map((v, i) => (
-                <div key={i} title={`${v} session${v === 1 ? "" : "s"}`} style={{ flex: 1, height: `${Math.max(4, (v / maxWk) * 100)}%`, borderRadius: "6px 6px 2px 2px", background: v ? `linear-gradient(180deg,${C.cyan},rgba(67, 52, 220,.3))` : "rgba(15,23,42,.08)" }} />
+                <div key={i} title={`${v} session${v === 1 ? "" : "s"}`} style={{ flex: 1, height: `${Math.max(4, (v / maxWk) * 100)}%`, borderRadius: "6px 6px 2px 2px", background: v ? `linear-gradient(180deg,${C.cyan},rgba(128,131,255,.3))` : "rgba(255,255,255,.08)" }} />
               ))}
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", font: "400 11px var(--hc-mono)", color: "#8A94A6" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", font: "400 11px var(--hc-mono)", color: "#5E626D" }}>
               <span>10 weeks ago</span>
               <span>This week</span>
             </div>
@@ -84,7 +84,7 @@ export default function PatientDetailPage() {
             </div>
             <div style={{ overflowX: "auto" }}>
               <div style={{ minWidth: 640 }}>
-                <div style={{ display: "grid", gridTemplateColumns: "minmax(150px,1.4fr) minmax(110px,1fr) minmax(90px,1fr) 90px 130px", gap: 12, padding: "10px 24px", borderBottom: "1px solid rgba(15,23,42,0.066)" }} className="hc-eyebrow">
+                <div style={{ display: "grid", gridTemplateColumns: "minmax(150px,1.4fr) minmax(110px,1fr) minmax(90px,1fr) 90px 130px", gap: 12, padding: "10px 24px", borderBottom: "1px solid rgba(255,255,255,0.066)" }} className="hc-eyebrow">
                   <span>SESSION</span>
                   <span>STARTED</span>
                   <span>DEVICE</span>
@@ -92,10 +92,10 @@ export default function PatientDetailPage() {
                   <span>STATUS</span>
                 </div>
                 {patient.sessions.map((s) => (
-                  <div key={s.id} onClick={() => set({ drawer: s.id })} className="hc-row" style={{ display: "grid", gridTemplateColumns: "minmax(150px,1.4fr) minmax(110px,1fr) minmax(90px,1fr) 90px 130px", gap: 12, padding: "0 24px", height: prefs.compact ? 42 : 54, alignItems: "center", borderBottom: "1px solid rgba(15,23,42,0.055)" }}>
-                    <span title={s.code} style={{ font: "500 12.5px var(--hc-mono)", color: "#334155", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.code}</span>
-                    <span style={{ fontSize: 13, color: "#334155" }}>{whenLabel(s.startMs, nowMs)}</span>
-                    <span style={{ fontSize: 13, color: "#5B6577" }}>{s.device}</span>
+                  <div key={s.id} onClick={() => set({ drawer: s.id })} className="hc-row" style={{ display: "grid", gridTemplateColumns: "minmax(150px,1.4fr) minmax(110px,1fr) minmax(90px,1fr) 90px 130px", gap: 12, padding: "0 24px", height: prefs.compact ? 42 : 54, alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.055)" }}>
+                    <span title={s.code} style={{ font: "500 12.5px var(--hc-mono)", color: "#C3C6CF", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.code}</span>
+                    <span style={{ fontSize: 13, color: "#C3C6CF" }}>{whenLabel(s.startMs, nowMs)}</span>
+                    <span style={{ fontSize: 13, color: "#8C909B" }}>{s.device}</span>
                     <span style={{ font: "500 13px var(--hc-mono)" }}>{fmtInt(s.rows)}</span>
                     <StatusPill status={s.status} pulse={s.status === "Live"} />
                   </div>
@@ -117,14 +117,14 @@ export default function PatientDetailPage() {
               <Avatar hue={patient.hue} initials={patient.tester.slice(0, 2).toUpperCase()} size={38} fs={12} />
               <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 <span style={{ fontSize: 14, fontWeight: 500 }}>{patient.tester}</span>
-                <span style={{ fontSize: 12.5, color: "#64748B" }}>Owns this patient profile</span>
+                <span style={{ fontSize: 12.5, color: "#8C909B" }}>Owns this patient profile</span>
               </div>
             </div>
           </div>
           <div className="hc-card" style={{ padding: 22, display: "flex", flexDirection: "column", gap: 12 }}>
             <span className="hc-eyebrow">NOTES</span>
             <Notes notes={notes} />
-            {notes.length === 0 ? <span style={{ fontSize: 13, color: "#64748B" }}>No notes yet.</span> : null}
+            {notes.length === 0 ? <span style={{ fontSize: 13, color: "#8C909B" }}>No notes yet.</span> : null}
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@ export default function PatientDetailPage() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="hc-tile hc-tile-lift" style={{ padding: "16px 18px" }}>
-      <span style={{ fontSize: 12.5, color: "#5B6577" }}>{label}</span>
+      <span style={{ fontSize: 12.5, color: "#8C909B" }}>{label}</span>
       <span style={{ fontSize: 22, fontWeight: 600, letterSpacing: "-.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</span>
     </div>
   );

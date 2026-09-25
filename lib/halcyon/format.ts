@@ -3,11 +3,11 @@ export const MONTHS = ["January", "February", "March", "April", "May", "June", "
 export const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export const C = {
-  cyan: "#4334DC",
-  green: "#10B981",
-  amber: "#D97706",
-  rose: "#E11D48",
-  violet: "#7C3AED",
+  cyan: "#8083FF",
+  green: "#3ECF8E",
+  amber: "#F5B544",
+  rose: "#F4606C",
+  violet: "#A78BFA",
 };
 
 export const pad = (n: number) => String(n).padStart(2, "0");
@@ -71,7 +71,7 @@ export function hueOf(key: string): number {
   return HUES[h % HUES.length];
 }
 
-export const av = (h: number) => `linear-gradient(135deg,oklch(0.92 0.06 ${h}),oklch(0.83 0.09 ${h}))`;
+export const av = (h: number) => `linear-gradient(135deg,oklch(0.42 0.09 ${h}),oklch(0.28 0.06 ${h}))`;
 
 export function deviceLabel(raw: string | null | undefined): string {
   if (!raw) return "Unknown";
@@ -82,10 +82,10 @@ export function deviceLabel(raw: string | null | undefined): string {
 }
 
 export const STATUS_STYLE: Record<string, [string, string]> = {
-  Live: [C.green, "rgba(16,185,129,.12)"],
-  Active: [C.green, "rgba(16,185,129,.12)"],
-  Completed: [C.cyan, "rgba(67, 52, 220,.10)"],
-  Idle: ["#64748B", "rgba(100,116,139,.12)"],
+  Live: [C.green, "rgba(62,207,142,.12)"],
+  Active: [C.green, "rgba(62,207,142,.12)"],
+  Completed: [C.cyan, "rgba(128,131,255,.10)"],
+  Idle: ["#8C909B", "rgba(140,144,155,.12)"],
 };
 
 export const DEVICE_COLORS = [C.cyan, C.green, C.violet, C.amber];

@@ -14,7 +14,7 @@ export function profileEntries(p: DPatient): [string, string][] {
 
 export function SensorProfile({ patient, cols = 2 }: { patient: DPatient | undefined; cols?: number }) {
   const rows = patient ? profileEntries(patient) : [];
-  if (!rows.length) return <span style={{ fontSize: 13, color: "#64748B" }}>No sensor profile saved for this patient.</span>;
+  if (!rows.length) return <span style={{ fontSize: 13, color: "#8C909B" }}>No sensor profile saved for this patient.</span>;
   return (
     <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols},minmax(0,1fr))`, gap: "14px 18px" }}>
       {rows.map(([k, v]) => (

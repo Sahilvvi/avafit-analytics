@@ -87,8 +87,8 @@ export function DualLines({
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", overflow: "visible" }}
     >
       <defs>
-        {grad(`gA${uid}`, "#4334DC", 0.28)}
-        {grad(`gB${uid}`, "#10B981", 0.16)}
+        {grad(`gA${uid}`, "#8083FF", 0.28)}
+        {grad(`gB${uid}`, "#3ECF8E", 0.16)}
       </defs>
       {[0, 1, 2, 3, 4].map((k) => (
         <line
@@ -97,7 +97,7 @@ export function DualLines({
           x2={W}
           y1={12 + (k * (H - 24)) / 4}
           y2={12 + (k * (H - 24)) / 4}
-          stroke="rgba(15,23,42,0.066)"
+          stroke="rgba(255,255,255,0.066)"
           strokeDasharray="3 5"
           vectorEffect="non-scaling-stroke"
         />
@@ -107,7 +107,7 @@ export function DualLines({
       <path
         d={lB}
         fill="none"
-        stroke="#10B981"
+        stroke="#3ECF8E"
         strokeWidth={2}
         vectorEffect="non-scaling-stroke"
         pathLength={1}
@@ -116,7 +116,7 @@ export function DualLines({
       <path
         d={lA}
         fill="none"
-        stroke="#4334DC"
+        stroke="#8083FF"
         strokeWidth={2.4}
         vectorEffect="non-scaling-stroke"
         pathLength={1}
@@ -144,7 +144,7 @@ export function Donut({
   let acc = 0;
   return (
     <svg viewBox="0 0 180 180" style={{ width: "100%", height: "100%", transform: "rotate(-90deg)", overflow: "visible" }}>
-      <circle cx={90} cy={90} r={R} fill="none" stroke="rgba(15,23,42,0.055)" strokeWidth={14} />
+      <circle cx={90} cy={90} r={R} fill="none" stroke="rgba(255,255,255,0.055)" strokeWidth={14} />
       {tot > 0 &&
         values.map((c, i) => {
           if (!c) return null;

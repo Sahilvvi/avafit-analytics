@@ -50,7 +50,7 @@ export default function SessionsPage() {
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
         <div style={{ position: "relative", flex: "1 1 280px", maxWidth: 420 }}>
-          <span style={{ position: "absolute", left: 14, top: 12, color: "#64748B", display: "flex" }}>
+          <span style={{ position: "absolute", left: 14, top: 12, color: "#8C909B", display: "flex" }}>
             <Icon name="search" size={16} />
           </span>
           <input className="hc-search" value={ui.sq} onChange={(e) => set({ sq: e.target.value })} placeholder="Search session code, patient or tester" />
@@ -63,7 +63,7 @@ export default function SessionsPage() {
                 key={c.key}
                 onClick={() => set({ sDevice: c.key })}
                 className="hc-chip"
-                style={{ ["--bd" as string]: on ? "rgba(67, 52, 220,.35)" : "rgba(15,23,42,.08)", ["--bg" as string]: on ? "rgba(67, 52, 220,.1)" : "rgba(15,23,42,0.044)", ["--fg" as string]: on ? "#372BC7" : "#334155" }}
+                style={{ ["--bd" as string]: on ? "rgba(128,131,255,.35)" : "rgba(255,255,255,.08)", ["--bg" as string]: on ? "rgba(128,131,255,.1)" : "rgba(255,255,255,0.044)", ["--fg" as string]: on ? "#9A9CFF" : "#C3C6CF" }}
               >
                 {c.label}
                 <span style={{ font: "500 11.5px var(--hc-mono)", opacity: 0.7 }}>{c.count}</span>
@@ -85,8 +85,8 @@ export default function SessionsPage() {
                 gridTemplateColumns: "minmax(160px,1.3fr) minmax(180px,2fr) 110px minmax(120px,1fr) 100px 100px 130px 150px",
                 gap: 12,
                 padding: "14px 20px",
-                borderBottom: "1px solid rgba(15,23,42,0.066)",
-                background: "rgba(255,255,255,.97)",
+                borderBottom: "1px solid rgba(255,255,255,0.066)",
+                background: "rgba(17,18,23,.82)",
                 backdropFilter: "blur(12px)",
               }}
             >
@@ -97,19 +97,19 @@ export default function SessionsPage() {
                 key={s.id}
                 onClick={() => set({ drawer: s.id })}
                 className="hc-row-39"
-                style={{ display: "grid", gridTemplateColumns: "minmax(160px,1.3fr) minmax(180px,2fr) 110px minmax(120px,1fr) 100px 100px 130px 150px", gap: 12, padding: "0 20px", height: prefs.compact ? 46 : 60, alignItems: "center", borderBottom: "1px solid rgba(15,23,42,0.055)", cursor: "pointer" }}
+                style={{ display: "grid", gridTemplateColumns: "minmax(160px,1.3fr) minmax(180px,2fr) 110px minmax(120px,1fr) 100px 100px 130px 150px", gap: 12, padding: "0 20px", height: prefs.compact ? 46 : 60, alignItems: "center", borderBottom: "1px solid rgba(255,255,255,0.055)", cursor: "pointer" }}
               >
-                <span title={s.code} style={{ font: "500 12.5px var(--hc-mono)", color: "#334155", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.code}</span>
+                <span title={s.code} style={{ font: "500 12.5px var(--hc-mono)", color: "#C3C6CF", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.code}</span>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
                   <Avatar hue={s.hue} initials={s.initials} size={30} fs={11} />
                   <span style={{ fontSize: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.patient}</span>
                 </div>
-                <span style={{ fontSize: 13, color: "#5B6577" }}>{s.device}</span>
-                <span style={{ fontSize: 13, color: "#334155", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.tester}</span>
-                <span style={{ font: "400 12.5px var(--hc-mono)", color: "#5B6577" }}>{fmtDur(s.durS)}</span>
+                <span style={{ fontSize: 13, color: "#8C909B" }}>{s.device}</span>
+                <span style={{ fontSize: 13, color: "#C3C6CF", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.tester}</span>
+                <span style={{ font: "400 12.5px var(--hc-mono)", color: "#8C909B" }}>{fmtDur(s.durS)}</span>
                 <span style={{ font: "500 13px var(--hc-mono)" }}>{fmtInt(s.rows)}</span>
                 <StatusPill status={s.status} pulse={s.status === "Live"} />
-                <span style={{ fontSize: 13, color: "#5B6577" }}>{whenLabel(s.startMs, nowMs)}</span>
+                <span style={{ fontSize: 13, color: "#8C909B" }}>{whenLabel(s.startMs, nowMs)}</span>
               </div>
             ))}
             {sorted.length === 0 ? <EmptyRow>No sessions match your filters.</EmptyRow> : null}

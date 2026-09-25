@@ -41,13 +41,13 @@ export default function SessionDetailPage() {
           </div>
           <button
             onClick={() => go(`/patients/${session.pid}`)}
-            style={{ alignSelf: "flex-start", display: "flex", alignItems: "center", gap: 10, padding: "4px 10px 4px 4px", marginLeft: -4, borderRadius: 999, border: 0, background: "transparent", color: "#0F172A", cursor: "pointer", transition: "background .2s" }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(15,23,42,0.055)")}
+            style={{ alignSelf: "flex-start", display: "flex", alignItems: "center", gap: 10, padding: "4px 10px 4px 4px", marginLeft: -4, borderRadius: 999, border: 0, background: "transparent", color: "#EDEEF2", cursor: "pointer", transition: "background .2s" }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.055)")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
           >
             <Avatar hue={session.hue} initials={session.initials} size={30} fs={11} />
             <span style={{ fontSize: 14.5, fontWeight: 500 }}>{session.patient}</span>
-            <span style={{ fontSize: 13, color: "#64748B" }}>
+            <span style={{ fontSize: 13, color: "#8C909B" }}>
               {patient?.code ?? session.pid.slice(0, 8)} · {whenLabel(session.startMs, nowMs)}
             </span>
           </button>
@@ -65,8 +65,8 @@ export default function SessionDetailPage() {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "flex-start" }}>
         <div className="hc-card" style={{ flex: "2 1 520px", minWidth: 0, padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
           <h3 className="hc-h3">Raw telemetry</h3>
-          <div style={{ padding: 16, borderRadius: 14, background: "rgba(15,23,42,0.033)", border: "1px dashed rgba(15,23,42,0.14)", fontSize: 13.5, color: "#5B6577", lineHeight: 1.6, display: "flex", gap: 10 }}>
-            <Icon name="database" size={16} style={{ flex: "none", marginTop: 2, color: "#64748B" }} />
+          <div style={{ padding: 16, borderRadius: 14, background: "rgba(255,255,255,0.033)", border: "1px dashed rgba(255,255,255,0.14)", fontSize: 13.5, color: "#8C909B", lineHeight: 1.6, display: "flex", gap: 10 }}>
+            <Icon name="database" size={16} style={{ flex: "none", marginTop: 2, color: "#8C909B" }} />
             <span>{RAW_NOTE}</span>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function SessionDetailPage() {
       <div className="hc-card" style={{ padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
         <h3 className="hc-h3">Notes</h3>
         <Notes notes={session.note ? [{ by: session.tester, when: whenLabel(session.startMs, nowMs), text: session.note }] : []} />
-        {!session.note ? <span style={{ fontSize: 13, color: "#64748B" }}>No notes yet.</span> : null}
+        {!session.note ? <span style={{ fontSize: 13, color: "#8C909B" }}>No notes yet.</span> : null}
       </div>
     </div>
   );
@@ -88,7 +88,7 @@ export default function SessionDetailPage() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="hc-tile" style={{ padding: "16px 18px" }}>
-      <span style={{ fontSize: 12.5, color: "#5B6577" }}>{label}</span>
+      <span style={{ fontSize: 12.5, color: "#8C909B" }}>{label}</span>
       <span style={{ fontSize: 20, fontWeight: 600, letterSpacing: "-.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value}</span>
     </div>
   );
