@@ -64,7 +64,6 @@ export default function SettingsPage({ auditLog }: { auditLog: AuditLogEntry[] }
         <div style={{ flex: "1 1 360px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
           <div className="hc-card" style={{ padding: 12 }}>
             <PrefRow label="Compact tables" desc="Tighter row height across every table" on={prefs.compact} onToggle={() => setPref("compact", !prefs.compact)} />
-            <PrefRow label="Ambient glow" desc="Soft background glow behind the dashboard" on={prefs.glow} onToggle={() => setPref("glow", !prefs.glow)} />
           </div>
           <div className="hc-card" style={{ padding: 22, display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>

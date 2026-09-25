@@ -99,17 +99,16 @@ function SubmitButton() {
       disabled={pending}
       style={{
         height: 54,
-        borderRadius: 14,
+        borderRadius: 10,
         border: 0,
         cursor: pending ? "default" : "pointer",
-        background: "linear-gradient(180deg,#6C63FF,#4334DC)",
+        background: "#4334DC",
         color: "#FFFFFF",
         font: "600 15.5px var(--hc-sans)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         gap: 8,
-        boxShadow: "0 10px 30px -10px rgba(67, 52, 220,.7),inset 0 1px 0 rgba(255,255,255,.5)",
         opacity: pending ? 0.85 : 1,
       }}
     >

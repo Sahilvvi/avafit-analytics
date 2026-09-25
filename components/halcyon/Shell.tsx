@@ -26,7 +26,7 @@ function activeIndex(pathname: string): number {
 }
 
 export default function Shell({ children }: { children: React.ReactNode }) {
-  const { ui, set, go, mobile, admin, prefs, signOut, ready, model } = useDash();
+  const { ui, set, go, mobile, admin, signOut, ready, model } = useDash();
   const pathname = usePathname();
   const idx = activeIndex(pathname);
   const collapsed = !mobile && ui.collapsed;
@@ -40,13 +40,6 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <div style={{ minHeight: "100vh", background: "#F6F7FB", color: "#0F172A", position: "relative", animation: "hcAppIn .7s cubic-bezier(.2,.8,.2,1) backwards" }}>
-      {prefs.glow ? (
-        <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden", zIndex: 0 }}>
-          <div className="hc-blob-drift" style={{ position: "absolute", width: 700, height: 700, left: -200, top: -300, borderRadius: "50%", background: "radial-gradient(circle,rgba(67, 52, 220,.10),transparent 65%)", animationDuration: "22s" }} />
-          <div className="hc-blob-drift" style={{ position: "absolute", width: 600, height: 600, right: -200, top: 200, borderRadius: "50%", background: "radial-gradient(circle,rgba(16,185,129,.07),transparent 65%)", animationDuration: "28s", animationDirection: "reverse" }} />
-        </div>
-      ) : null}
-
       <aside
         style={{
           position: "fixed",

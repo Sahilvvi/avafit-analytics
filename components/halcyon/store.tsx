@@ -44,7 +44,6 @@ export interface UiState {
 
 export interface Prefs {
   compact: boolean;
-  glow: boolean;
 }
 
 const INITIAL: UiState = {
@@ -137,7 +136,7 @@ export function DashProvider({
   const [ui, setUi] = useState<UiState>(INITIAL);
   const set = useCallback<DashCtx["set"]>((patch) => setUi((s) => ({ ...s, ...(typeof patch === "function" ? patch(s) : patch) })), []);
 
-  const [prefs, setPrefs] = useState<Prefs>({ compact: false, glow: true });
+  const [prefs, setPrefs] = useState<Prefs>({ compact: false });
   const [notifSeen, setNotifSeen] = useState(0);
   const [refreshedAt, setRefreshedAt] = useState<number | null>(null);
 

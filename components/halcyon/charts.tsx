@@ -17,7 +17,7 @@ export function smoothPath(pts: [number, number][]): string {
 }
 
 /** Filled sparkline that draws itself in. */
-export function Spark({ data, color, glow = true }: { data: number[]; color: string; glow?: boolean }) {
+export function Spark({ data, color, glow = false }: { data: number[]; color: string; glow?: boolean }) {
   const id = "sp" + useId().replace(/:/g, "");
   const w = 100;
   const h = 32;
@@ -111,7 +111,7 @@ export function DualLines({
         strokeWidth={2}
         vectorEffect="non-scaling-stroke"
         pathLength={1}
-        style={{ strokeDasharray: 1, animation: "hcDraw 1.4s cubic-bezier(.2,.8,.2,1) both", filter: "drop-shadow(0 4px 8px rgba(16,185,129,.3))" }}
+        style={{ strokeDasharray: 1, animation: "hcDraw 1.4s cubic-bezier(.2,.8,.2,1) both" }}
       />
       <path
         d={lA}
@@ -120,7 +120,7 @@ export function DualLines({
         strokeWidth={2.4}
         vectorEffect="non-scaling-stroke"
         pathLength={1}
-        style={{ strokeDasharray: 1, animation: "hcDraw 1.4s .1s cubic-bezier(.2,.8,.2,1) both", filter: "drop-shadow(0 4px 8px rgba(67, 52, 220,.35))" }}
+        style={{ strokeDasharray: 1, animation: "hcDraw 1.4s .1s cubic-bezier(.2,.8,.2,1) both" }}
       />
     </svg>
   );
@@ -169,7 +169,6 @@ export function Donut({
                 strokeDashoffset: -off - (values.filter(Boolean).length > 1 ? 4 : 0),
                 opacity: hover == null || on ? 1 : 0.35,
                 transition: "stroke-width .35s cubic-bezier(.2,.8,.2,1),opacity .3s",
-                filter: on ? `drop-shadow(0 0 10px ${colors[i % colors.length]})` : "none",
                 cursor: "pointer",
               }}
             />
